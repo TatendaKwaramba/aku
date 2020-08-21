@@ -7,7 +7,7 @@
                 <div class="card ">
                     <div class="card-content" style="font-size:75px;">
                         <div class="center">
-                            <img src="img/gc/Logo_GetCash.png" alt="Logo">
+                            <img src="img/gc/logo.jpeg" alt="Logo" width="200px">
                         </div>
                         <div>
 

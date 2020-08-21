@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'GetCash') }}</title>
-    <link rel="shortcut icon" href="{{ asset('img/gc/ico.png') }}" type="image/x-icon"/>
+    <link rel="shortcut icon" href="{{ asset('img/gc/ico.jpeg') }}" type="image/x-icon"/>
     <link rel="stylesheet" href="{{ asset('lib/materialize/css/materialize.min.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/materialize/css/materialize.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/font-awesome/css/font-awesome.min.css') }}">
@@ -93,7 +93,7 @@
                 <ul>
                     <li>
                         <div class="topbar" id="">
-                            <img class="background" src="{{ asset('img/gc/gc_platform.svg') }}">
+                            <img class="background" src="{{ asset('img/gc/logo.jpeg') }}" width="70px">
                         </div>
                     </li>
                     <li>
