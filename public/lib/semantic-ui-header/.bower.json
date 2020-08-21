@@ -1,0 +1,40 @@
+{
+  "name": "semantic-ui-header",
+  "description": "Header - Semantic UI",
+  "homepage": "http://www.semantic-ui.com",
+  "author": {
+    "name": "Jack Lukic",
+    "web": "http://www.jacklukic.com"
+  },
+  "ignore": [
+    "docs",
+    "node",
+    "server",
+    "spec",
+    "src",
+    "test"
+  ],
+  "keywords": [
+    "semantic",
+    "ui",
+    "css3",
+    "framework"
+  ],
+  "license": [
+    "http://semantic-ui.mit-license.org/"
+  ],
+  "main": [
+    "header.css"
+  ],
+  "version": "2.2.3",
+  "_release": "2.2.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.2.3",
+    "commit": "5fce3c9ebe5468ff8e2fb321a9b9e9b465f1e322"
+  },
+  "_source": "https://github.com/Semantic-Org/UI-Header.git",
+  "_target": "^2.2.3",
+  "_originalSource": "semantic-ui-header",
+  "_direct": true
+}

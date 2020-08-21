@@ -1,0 +1,158 @@
+.background {
+    width: 225px;
+    height: auto;
+}
+
+tr.ng-enter {
+    animation: slideInUp 0.5s;
+}
+
+tr.ng-leave {
+    animation: fadeOut 0.3s;
+}
+
+.ng-hide-add {
+    animation: fadeOut 0.3s;
+}
+
+
+
+.strike{
+    text-decoration: line-through;
+}
+
+tr {
+    cursor: pointer;
+    cursor: hand;
+}
+
+#back {
+
+    cursor: pointer;
+    cursor: hand;
+    box-shadow: 10px 10px 5px;
+}
+
+::-webkit-scrollbar {
+    width: .3em;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: grey;
+    outline: 1px solid slategrey;
+}
+
+.search-box {
+    padding: 0 !important;
+    height: auto !important;
+    /*border: 1px solid grey !important;*/
+}
+
+.search-box input {
+    height: 45px !important;
+    background: #eeeeee !important;
+    margin: 0 !important;
+}
+
+.search-box input :focus {
+    border-bottom: 1px solid red !important;
+}
+
+.clientTable.ng-leave {
+    animation: fadeOut 1s;
+}
+
+/* label focus color */
+.input-field input[type=text]:focus + label {
+    color: #2196f3;
+}
+
+/* label underline focus color */
+.input-field input[type=text]:focus {
+    border-bottom: 1px solid #2196f3;
+    box-shadow: 0 1px 0 0 #2196f3;
+}
+
+/* label focus color */
+.input-field input[type=email]:focus + label {
+    color: #2196f3;
+}
+
+/* label underline focus color */
+.input-field input[type=email]:focus {
+    border-bottom: 1px solid #2196f3;
+    box-shadow: 0 1px 0 0 #2196f3;
+}
+
+/* label focus color */
+.input-field input[type=number]:focus + label {
+    color: #2196f3;
+}
+
+/* label underline focus color */
+.input-field input[type=number]:focus {
+    border-bottom: 1px solid #2196f3;
+    box-shadow: 0 1px 0 0 #2196f3;
+}
+
+/* label focus color */
+.input-field input[type=date]:focus + label {
+    color: #2196f3;
+}
+
+/* label underline focus color */
+.input-field input[type=date]:focus {
+    border-bottom: 1px solid #2196f3;
+    box-shadow: 0 1px 0 0 #2196f3;
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+    color: #2196f3;
+}
+
+/*table tr:nth-child(even) {
+    background-color:#bbdefb;
+}*/
+td {
+    padding: 10px 5px;
+}
+
+.collapsible li li a{
+    font-size: small;
+}
+
+.collapsible li .divider{
+    margin: 0px;
+}
+
+.collapsible li a.active {
+    background: #efefef;
+}
+
+.gc_category_heading{
+    font-size: x-large;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+a:hover {
+    cursor: pointer;
+}
+.tabs .indicator { display: none; }
+.tabs .tab a.active { border-bottom: 2px solid #f6b2b5; }
+
+.akupay{
+    background-color: #4132a8 !important;
+}
+
+.akupay-text{
+    color: #57d0e5 !important;
+}

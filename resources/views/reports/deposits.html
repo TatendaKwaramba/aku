@@ -1,0 +1,90 @@
+<div class="card" class="depositsTable">
+    <div class="card-content with-padding">
+        <strong><i class="fa fa-users"></i> SUBSCRIBERS [ {{ results.length }} ]</strong>
+        <span><a href="" ng-click="refreshDeposits()"><i class="fa fa-refresh"></i></a></span>
+        <span><a href="" ng-click="clientSearch = !clientSearch"><i class="fa fa-search right"></i></a></span>
+        <span class="right" ng-show="loading"><strong class="black-text "><i class="fa fa-refresh fa-spin"></i></strong> Fetching Data...</span>
+    </div>
+
+    <div class="card-content grey lighten-3 with-padding">
+        <table class="highlight bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th data-field="firstname">GetCash Transaction ID</th>
+                <th data-field="lastname">Business Wallet ID</th>
+                <th data-field="address">Business Name</th>
+                <th data-field="email">Amount</th>
+                <th data-field="mobile">Source</th>
+                <th data-field="registration_date">Status</th>
+                <th data-field="registration_date">Action</th>
+            </tr>
+            </thead>
+            <thead ng-show="clientSearch">
+            <tr>
+                <th><i class="fa fa-search"></i></th>
+                <th class="search-box">
+                    <input type="text" placeholder="Search Name" ng-model="searchResult.firstname">
+                </th>
+                <th class="search-box">
+                    <input type="text" placeholder="Search Surname" ng-model="searchResult.lastname">
+                </th>
+                <th class="search-box">
+                    <input type="text" placeholder="Search Address" ng-model="searchResult.address">
+                </th>
+                <th class="search-box">
+                    <input type="text" placeholder="Search Email" ng-model="searchResult.email">
+                </th>
+                <th class="search-box">
+                    <input type="text" placeholder="Search Mobile" ng-model="searchResult.mobile">
+                </th>
+
+                <th class="search-box">
+                    <input type="date" class="datepicker" placeholder="Search By Date"
+                           ng-model="searchResult.registrationDate">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr dir-paginate="client in results =  (clients  | filter:searchResult)| orderBy: 'registrationDate' | itemsPerPage:10 "
+                ng-dblclick="open(client)">
+                <td>{{$index + 1}} {{$index.length}}</td>
+                <td>{{client.firstname}}</td>
+                <td>{{client.lastname}}</td>
+                <td>{{client.address}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.mobile}}</td>
+                <td>{{client.registrationDate | date: 'medium'}}</td>
+                <td ng-if="results === 0">NO RESULTS FOUND</td>
+
+            </tr>
+        </table>
+        <center>
+            <dir-pagination-controls
+                    max-size="5"
+                    direction-links="true"
+                    boundary-links="true" class="red">
+            </dir-pagination-controls>
+        </center>
+    </div>
+
+
+    <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red animated pulse infinite">
+            <i class="fa fa-download"></i>
+        </a>
+
+    </div>
+</div>
+
+
+<script>
+    $('select').material_select();
+    $('.datepicker').pickadate({
+        selectMonths: true,
+        selectYears: 15
+    });
+</script>
+
+
+

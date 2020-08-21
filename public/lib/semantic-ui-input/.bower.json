@@ -1,0 +1,40 @@
+{
+  "name": "semantic-ui-input",
+  "description": "Input - Semantic UI",
+  "homepage": "http://www.semantic-ui.com",
+  "author": {
+    "name": "Jack Lukic",
+    "web": "http://www.jacklukic.com"
+  },
+  "ignore": [
+    "docs",
+    "node",
+    "server",
+    "spec",
+    "src",
+    "test"
+  ],
+  "keywords": [
+    "semantic",
+    "ui",
+    "css3",
+    "framework"
+  ],
+  "license": [
+    "http://semantic-ui.mit-license.org/"
+  ],
+  "main": [
+    "input.css"
+  ],
+  "version": "2.2.3",
+  "_release": "2.2.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.2.3",
+    "commit": "7fc48a4b64333cfb155c535d253f53252ff02064"
+  },
+  "_source": "https://github.com/Semantic-Org/UI-Input.git",
+  "_target": "^2.2.3",
+  "_originalSource": "semantic-ui-input",
+  "_direct": true
+}
