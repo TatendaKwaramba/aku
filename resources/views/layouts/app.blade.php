@@ -177,9 +177,25 @@
                                                        id="21">
                                                         View Subscriber</a>
                                                 </li>
+                                                <div class="divider"></div>
 
                                             @endif
 
+                                            @if(Roles::hasElement(21))
+
+                                            <li><a href="{{ url('/client/bulkadd') }}"
+                                                   class="blue-text
+                                                        @if(Request::is('client/bulkadd*'))
+                                                           active
+                                                        @endif
+                                                   @if(Auth::user()->hasRole('admin_global'))
+                                                           uiroles
+                                                        @endif"
+                                                   id="21">
+                                                    Add Bulk Subscriber</a>
+                                            </li>
+
+                                            @endif
 
                                         </ul>
                                     </div>
