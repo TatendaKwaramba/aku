@@ -15,11 +15,14 @@
     <link rel="stylesheet" href="{{ asset('lib/angular-material/angular-material.css') }}">
     <link rel="stylesheet" href="{{ asset('lib/sweetalert/dist/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+    
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-components-web/4.0.0/material-components-web.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.material.min.css">
     <link rel="stylesheet" href="{{ asset('lib/select2/dist/css/select2.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/select2-materialize.css') }}">
-
+    @stack('scripts')
 
 @yield('styles')
 <!--    <link rel="stylesheet" href="lib/semantic/dist/semantic.min.css">     -->
@@ -1111,7 +1114,8 @@
 <script src="{{ asset('lib/ng-csv/build/ng-csv.min.js') }}"></script>
 <script src="{{ asset('lib/pdfmake/build/pdfmake.min.js') }}"></script>
 <script src="{{ asset('lib/pdfmake/build/vfs_fonts.js') }}"></script>
-
+<script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.material.min.js') }}"></script>
 
 <script src={{ asset('lib/chart.js/dist/Chart.min.js') }}></script>
 <script src={{ asset('lib/angular-chart.js/dist/angular-chart.min.js') }}></script>
@@ -1122,7 +1126,19 @@
 
 <script src="{{asset('lib/select2/dist/js/select2.min.js')}}"></script>
 
-
+<script>
+    $(function() {
+        $('#dtBasicExample').DataTable( {
+            //autoWidth: false,
+            // columnDefs: [
+            //     {
+            //         targets: ['_all'],
+            //         className: 'mdc-data-table__cell'
+            //     }
+            // ]
+        });
+    });
+</script>
 <script src="{{ asset('js/router.js') }}"></script>
 <script src="{{ asset('js/index.js') }}"></script>
 

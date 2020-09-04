@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 use App\Http\Requests;
 
@@ -47,7 +48,94 @@ class ClientController extends Controller
     }
 
     public function submitUsers(Request $request){
-        return $request->input('json');
+        $array = json_decode($request->json);
+        $data = array();
+
+        $client = new Client();
+        $flag = FALSE;
+        foreach ($array as $rec) {
+            if(!$flag){
+                array_push($data, $rec); 
+                $flag = TRUE;
+                continue; 
+            }
+
+            if($rec[7] !== "FAIL"){
+
+                //create payload
+                $info = array([
+                    "imei" => "357925071763103",
+                    "admin_id" => 1,
+                    "channel" => "ANDROID",
+                    "clients" => [
+                        "cardId" => "",
+                        "clientClassOfServiceId" => [
+                            "id" => 14
+                        ],
+                        "email" => $rec[5],
+                        "pin" => "",
+                        "deposit" => $rec[6],
+                        "lastname" => $rec[2],
+                        "agentId" => [
+                            "id" => 914
+                        ],
+                        "firstname" => $rec[1],
+                        "address" => $rec[4],
+                        "documentId" => [
+                            "vatRegistered" => false,
+                            "gender" => "Male",
+                            "idNumber" => "04065570X07"
+                        ],
+                        "mobile" => $rec[0],
+                        "idNumber" => "04065570X07"
+                    ]
+                ]);
+
+                
+                //send data
+                $result = $client->post('api.akupay.ng/Project_X/webresources/client_crud/add', [
+                    'headers' => ['Content-type' => 'application/json'],
+                    
+                    'json' => $info
+                ]);
+
+                //store response
+                $res = $result->getBody()->getContents();
+                $response = json_decode($res, TRUE);
+                
+                if($response[0]['code'] == 01){
+                    $rec[7] = "Successfully Registered";
+                }elseif($response[0]['code'] == 111){
+                    $rec[7] = "User Already Exists";
+                }elseif($response[0]['code'] == 400){
+                    $rec[7] = "Invalid Data";
+                }else {
+                    $rec[7] = "Error";
+                }
+
+                array_push($data, $rec);  
+
+            }
+
+        }
+
+        //Download CVS
+        $filename = "results.csv";
+        $handle = fopen($filename, 'w+');
+        $csv_headers = ['mobile', 'firstname', 'lastname', 'state', 'address', 'email', 'deposit', 'status'];
+
+        foreach ($data as $rec) {
+            fputcsv($handle, $rec);
+        }
+    
+        fclose($handle);
+    
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+    
+        return response()->download($filename, 'results.csv', $data);
+
     }
 
     public function exportTemplate(){
@@ -151,7 +239,7 @@ class ClientController extends Controller
     }
 
     public function valid_state($state){
-        if(!(preg_match('/^ACTIVE$|^DISABLED$/', $state))){
+        if(!(preg_match('/^ACTIVE$|^INACTIVE$/', $state))){
             return FALSE;
         }else {
             return TRUE;

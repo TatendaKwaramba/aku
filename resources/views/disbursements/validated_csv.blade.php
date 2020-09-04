@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="">
         <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
             <div class="card-title valign center">
                 CSV Data

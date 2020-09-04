@@ -44,7 +44,36 @@ class DisbursementsController extends Controller
     }
 
     public function submitDisbursements(Request $request){
-        return $request->input('json');
+        $array = json_decode($request->json);
+        $data = array();
+
+        $flag = FALSE;
+        foreach ($array as $rec) {
+            if(!$flag){ 
+                $flag = TRUE;
+                continue; 
+            }
+
+            if(TRUE){
+                array_push($data, [
+                    "agent_id" => 1472,
+                    "admin_id" => 1,
+                    "sms" => "Akupay: you have received a payment of 10.00 from Samsoftx.",
+                    "type" => "initiate",
+                    "disbursements" => [
+                        [
+                            "id" => "L41",
+                            "mobile" => $rec[0],
+                            "destination" => $rec[1],
+                            "amount" => $rec[2]
+                        ]
+                    ]
+                ]);
+            }
+
+        }
+
+        return $data;
     }
 
     public function exportTemplate(){
@@ -68,7 +97,7 @@ class DisbursementsController extends Controller
         return view('disbursements.add');
     }
 
-    // Validatio Functions
+    // Validation Functions
     public function valid_destination($mobile){
         if(!$mobile || !(preg_match('/^[0-9]{9,15}+$/', $mobile))){
             return FALSE;
