@@ -77,9 +77,9 @@ class DisbursementsController extends Controller
                     "disbursements" => [
                         [
                             "id" => "L41",
-                            "mobile" => $rec[1],
-                            "destination" => $rec[2],
-                            "amount" => $rec[3]
+                            "mobile" => $rec[0],
+                            "destination" => $rec[1],
+                            "amount" => $rec[2]
                         ]
                     ]
                 );
