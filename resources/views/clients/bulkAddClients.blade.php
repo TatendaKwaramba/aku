@@ -11,10 +11,10 @@
                         <div class="file-field input-field">
                             <div class="btn">
                               <span>CSV File</span>
-                              <input name="file" accept=".csv" type="file">
+                              <input name="file" accept=".csv" type="file" required>
                             </div>
                             <div class="file-path-wrapper">
-                              <input class="file-path validate" type="text">
+                              <input class="file-path validate" type="text" required>
                             </div>
                           </div>
                         <div class="valign center">
