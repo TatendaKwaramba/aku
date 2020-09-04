@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class DisbursementsController extends Controller
 {
@@ -43,19 +44,32 @@ class DisbursementsController extends Controller
         return view('disbursements.validated_csv', compact('csv_data', 'json_data'));
     }
 
+    public function approve(){
+        return view('disbursement.approve');
+    }
+
+    public function validatePayment(Request $request){
+        dd($request->All());
+    }
+
     public function submitDisbursements(Request $request){
         $array = json_decode($request->json);
         $data = array();
 
+        $client = new Client();
         $flag = FALSE;
         foreach ($array as $rec) {
             if(!$flag){ 
+                array_push($data, $rec);
                 $flag = TRUE;
                 continue; 
             }
 
+            
             if(TRUE){
-                array_push($data, [
+
+                //create payload
+                $info = array(
                     "agent_id" => 1472,
                     "admin_id" => 1,
                     "sms" => "Akupay: you have received a payment of 10.00 from Samsoftx.",
@@ -63,17 +77,58 @@ class DisbursementsController extends Controller
                     "disbursements" => [
                         [
                             "id" => "L41",
-                            "mobile" => $rec[0],
-                            "destination" => $rec[1],
-                            "amount" => $rec[2]
+                            "mobile" => $rec[1],
+                            "destination" => $rec[2],
+                            "amount" => $rec[3]
                         ]
                     ]
+                );
+
+                return $response;
+                //send data
+                $result = $client->post('api.akupay.ng/Project_X/webresources/disbursement/disburse', [
+                    'headers' => ['Content-type' => 'application/json'],
+                    
+                    'json' => $info
                 ]);
+
+                //store response
+                $res = $result->getBody()->getContents();
+                $response = json_decode($res, TRUE);
+                
+                
+                if($response[0]['code'] == 00){
+                    $rec[3] = "Successfully Initiated";
+                }elseif($response[0]['code'] == 01){
+                    $rec[3] = "Client does not exist";
+                } else {
+                    $rec[3] = "Error";
+                }
+
+                array_push($data, $rec);
+
             }
 
         }
 
-        return $data;
+        return view('disbursements.approve', compact('data')); 
+
+        //Download CVS
+        $filename = "results.csv";
+        $handle = fopen($filename, 'w+');
+
+        foreach ($data as $rec) {
+            fputcsv($handle, $rec);
+        }
+    
+        fclose($handle);
+    
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+    
+        return response()->download($filename, 'results.csv', $data);
+
     }
 
     public function exportTemplate(){

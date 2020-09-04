@@ -209,6 +209,8 @@ Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
     Route::post('/disbursements/bulkvalidate', 'DisbursementsController@disbursementsValidate')->name('disebursmentsValidate');
     Route::post('/disbursements/submitdisbursements', 'DisbursementsController@submitDisbursements')->name('submitdisbursements');
     Route::get('/disbursements/exporttemplate', 'DisbursementsController@exportTemplate')->name('export');
+    Route::post('/disbursments/approve', 'DisbursementsController@approve')->name('approve');
+    Route::post('/disbursments/validate', 'DisbursementsController@validatePayment')->name('validatePayment');
 
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');

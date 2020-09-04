@@ -11,6 +11,9 @@
     <form action="{{ route('submitdisbursements') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
     <input type="hidden" name="json" value="{{ $json_data }}">
+    <button type="submit" class="btn btn-primary">
+        submit
+    </button>
         <table class="table">
             @foreach ($csv_data as $row)
                 @if ($loop->first)
@@ -21,8 +24,6 @@
                             @endforeach
                         </tr>
                     </thead>
-                @endif
-                @if ($row[3] == "status")
                     @continue
                 @endif
                 @if ($row[3] == "FAIL")
@@ -40,10 +41,6 @@
                 @endif
             @endforeach
         </table>
-
-            <button type="submit" class="btn btn-primary">
-                submit
-            </button>
 
     </form>
 </div>
