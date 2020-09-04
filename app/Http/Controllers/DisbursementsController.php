@@ -85,7 +85,7 @@ class DisbursementsController extends Controller
                 );
 
                 //send data
-                $result = $client->post('api.akupay.ng/Project_X/webresources/disbursement/disburse', [
+                $result = $client->post(env('BASE_URL').'disbursement/disburse', [
                     'headers' => ['Content-type' => 'application/json'],
                     
                     'json' => $info
