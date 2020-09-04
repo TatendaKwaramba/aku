@@ -8,7 +8,7 @@
             </div>
             <div class="card-content valign center">
 
-    <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
+    <form action="{{ route('submitdisbursements') }}" method="POST" class="form-horizontal">
         {{ csrf_field() }}
     <input type="hidden" name="json" value="{{ $json_data }}">
         <table class="table">
@@ -22,10 +22,10 @@
                         </tr>
                     </thead>
                 @endif
-                @if ($row[7] == "status")
+                @if ($row[3] == "status")
                     @continue
                 @endif
-                @if ($row[7] == "FAIL")
+                @if ($row[3] == "FAIL")
                     <tr>
                         @foreach ($row as $key => $value)
                             <td class="alert alert-danger">{{ $value }}</td>

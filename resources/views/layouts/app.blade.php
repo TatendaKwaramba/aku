@@ -205,6 +205,48 @@
                                 </li>
                             @endif
 
+
+                                                <!--Clients-->
+                                                @if(! (Roles::hasElement(21) || Roles::hasElement(23)))
+                                                {{--show nothing--}}
+                                            @else
+                                                <li>
+                
+                                                    <div class="collapsible-header
+                                                                @if(Request::is('client/*'))
+                                                            active
+                                                        @endif
+                                                            "
+                                                         id="2">
+                                                        <i class="fa fa-exchange" aria-hidden="true"></i>
+                                                        DISBURSEMENTS
+                                                    </div>
+                                                    <div class="collapsible-body">
+                                                        <ul class="fa-ul blue-text collapsible" data-collapsible="accordion">
+                                                            @if(Roles::hasElement(21))
+                
+                                                            <li><a href="{{ url('/disbursements/bulkdisbursements') }}"
+                                                                   class="blue-text
+                                                                        @if(Request::is('disbursements/bulkdisbursements*'))
+                                                                           active
+                                                                        @endif
+                                                                   @if(Auth::user()->hasRole('admin_global'))
+                                                                           uiroles
+                                                                        @endif"
+                                                                   id="21">
+                                                                    Add Bulk Disbursements</a>
+                                                            </li>
+                
+                                                            @endif
+                
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="divider"></div>
+                                                </li>
+                                            @endif        
+
                         <!--BUSINESS-->
                             @if( !(
                                     Roles::hasElement(31)

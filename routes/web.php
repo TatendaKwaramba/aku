@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
-//Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
+Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
 //Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
@@ -201,7 +201,14 @@ use Illuminate\Support\Facades\Route;
     Route::get('/client/add', 'ClientController@getAddClient');
     Route::post('/client/validate', 'ClientController@bulkValidate');
     Route::get('/client/exporttemplate', 'ClientController@exportTemplate')->name('export');
+    Route::post('/client/bulksubmit', 'ClientController@submitUsers')->name('bulksubmit');
+
+    //Disbursement Functionality
     //*****************
+    Route::get('/disbursements/bulkdisbursements', 'DisbursementsController@bulkAddDisbursements');
+    Route::post('/disbursements/bulkvalidate', 'DisbursementsController@disbursementsValidate')->name('disebursmentsValidate');
+    Route::post('/disbursements/submitdisbursements', 'DisbursementsController@submitDisbursements')->name('submitdisbursements');
+    Route::get('/disbursements/exporttemplate', 'DisbursementsController@exportTemplate')->name('export');
 
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');

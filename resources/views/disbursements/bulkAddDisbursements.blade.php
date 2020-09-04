@@ -5,8 +5,8 @@
         <div class="container">
             <div class="card bg-light col-md-6 mt-3 ml-auto mr-auto">
                 <div class="card-content text-center">
-                    <div class="card-title">Upload Bulk Users</div>
-                    <form action="{{ action('ClientController@bulkValidate') }}" method="POST" enctype="multipart/form-data">
+                    <div class="card-title">Upload Bulk Disburments</div>
+                    <form action="{{ action('DisbursementsController@disbursementsValidate') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="file-field input-field">
                             <div class="btn">
@@ -19,7 +19,7 @@
                           </div>
                         <div class="">
                             <button type="submit" class="btn">Validate Data</button>
-                            <a class="btn" href="{{ url('client/exporttemplate') }}">Download Template
+                            <a class="btn" href="{{ url('disbursements/exporttemplate') }}">Download Template
                             </a>
                         </div>
                         
