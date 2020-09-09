@@ -22,7 +22,6 @@
     <link rel="stylesheet" href="{{ asset('lib/select2/dist/css/select2.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/select2-materialize.css') }}">
-    @stack('scripts')
 
 @yield('styles')
 <!--    <link rel="stylesheet" href="lib/semantic/dist/semantic.min.css">     -->
@@ -1126,19 +1125,6 @@
 
 <script src="{{asset('lib/select2/dist/js/select2.min.js')}}"></script>
 
-<script>
-    $(function() {
-        $('#dtBasicExample').DataTable( {
-            //autoWidth: false,
-            // columnDefs: [
-            //     {
-            //         targets: ['_all'],
-            //         className: 'mdc-data-table__cell'
-            //     }
-            // ]
-        });
-    });
-</script>
 <script src="{{ asset('js/router.js') }}"></script>
 <script src="{{ asset('js/index.js') }}"></script>
 

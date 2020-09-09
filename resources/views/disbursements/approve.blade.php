@@ -7,7 +7,6 @@
                 CSV Data
             </div>
             <div class="card-content valign center">
-            <a href="{{ route('disebursmentsValidate') }}">Back</a>
         <table class="table">
             @foreach ($data as $row)
                 @if ($loop->first)
@@ -36,7 +35,8 @@
                         <td>
                             <form method="POST" action="{{ route('validatePayment') }}">
                                 <input type="hidden" name="id" value="{{ $r[4] }}"/>
-                                <button style="border: none;" type="submit">
+                                <input type="hidden" name="json" value="{{ $json_data }}"/>
+                                <button style="border: none;" type="button" onclick="func()">
                                     <i class="fa fa-check text-success"></i>
                                 </button>
                             </form>
@@ -55,7 +55,6 @@
 </div>
 </div>
 </div>
-
 </div>
 </div>
 

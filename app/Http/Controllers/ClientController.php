@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 
 use App\Http\Requests;
@@ -42,10 +43,9 @@ class ClientController extends Controller
             }
 
             $json_data = json_encode($csv_data);
-        }
-
         return view('clients.validated_csv', compact('csv_data', 'json_data'));  
     }
+}
 
     public function submitUsers(Request $request){
         $array = json_decode($request->json);
@@ -93,9 +93,8 @@ class ClientController extends Controller
 
                 
                 //send data
-                $result = $client->post('api.akupay.ng/Project_X/webresources/client_crud/add', [
+                $result = $client->post(env('BASE_URL') .'/client_crud/add', [
                     'headers' => ['Content-type' => 'application/json'],
-                    
                     'json' => $info
                 ]);
 

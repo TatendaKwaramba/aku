@@ -16,7 +16,7 @@
     <button type="submit" class="btn btn-primary">
         submit
     </button>
-    <table id="dtBasicExample" class="table bordered">
+    <table id="dtBasicExample" class="table bordered data-table">
   
     @foreach ($csv_data as $row)
       @if ($loop->first)
@@ -56,11 +56,6 @@
 
 </div>
 </div>
-<script>
-    $(document).ready(function() {
-      $('#dtBasicExample').DataTable();
-  } );
-</script>
 
 @stop
   

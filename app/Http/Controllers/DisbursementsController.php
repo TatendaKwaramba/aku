@@ -49,7 +49,29 @@ class DisbursementsController extends Controller
     }
 
     public function validatePayment(Request $request){
-        dd($request->All());
+        
+        $json_data = json_decode($request->json);
+        $data = $json_data;
+        $client = new Client();
+        $info = array(
+            "agent_id" => 1472,
+            "admin_id" => 1,
+            "sms" => "Akupay: you have received a payment of 10.00 from Samsoftx..",
+            "type" => "validate",
+            "disbursements" => [
+                [
+                    "transId" => 1286463
+                ]
+            ]
+        );
+
+        $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
+            'headers' => ['Content-type' => 'application/json'],
+            
+            'json' => $info
+        ]);
+        
+        //return view('disbursements.approve', compact('data', 'json_data')); 
     }
 
     public function submitDisbursements(Request $request){
@@ -85,7 +107,7 @@ class DisbursementsController extends Controller
                 );
 
                 //send data
-                $result = $client->post('api.akupay.ng/Project_X/webresources/disbursement/disburse', [
+                $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
                     'headers' => ['Content-type' => 'application/json'],
                     
                     'json' => $info
@@ -110,7 +132,9 @@ class DisbursementsController extends Controller
 
         }
 
-        return view('disbursements.approve', compact('data')); 
+        $json_data = json_encode($data);
+
+        return view('disbursements.approve', compact('data', 'json_data')); 
 
         //Download CVS
         $filename = "results.csv";
@@ -153,7 +177,7 @@ class DisbursementsController extends Controller
 
     // Validation Functions
     public function valid_destination($mobile){
-        if(!$mobile || !(preg_match('/^[0-9]{9,15}+$/', $mobile))){
+        if(!$mobile || !(preg_match('/^[0-9.\s]{9,15}+$/', $mobile))){
             return FALSE;
         }else{
             return TRUE;
@@ -162,7 +186,7 @@ class DisbursementsController extends Controller
 
 
     public function valid_mobile($mobile){
-        if(!$mobile || !(preg_match('/^[0-9]{9,12}+$/', $mobile))){
+        if(!$mobile || !(preg_match('/^[0-9.\s]{9,12}+$/', $mobile))){
             return FALSE;
         }else{
             return TRUE;
