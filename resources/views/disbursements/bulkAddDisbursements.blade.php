@@ -5,16 +5,16 @@
         <div class="container">
             <div class="card bg-light col-md-6 mt-3 ml-auto mr-auto">
                 <div class="card-content text-center">
-                    <div class="card-title">Upload Bulk Disburments</div>
+                    <div class="card-title">Upload Bulk Disbursements</div>
                     <form action="{{ action('DisbursementsController@disbursementsValidate') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="file-field input-field">
                             <div class="btn">
                               <span>CSV File</span>
-                              <input name="file" accept=".csv" type="file">
+                              <input name="file" accept=".csv" type="file" required>
                             </div>
                             <div class="file-path-wrapper">
-                              <input class="file-path validate" type="text">
+                              <input class="file-path validate" type="text" required>
                             </div>
                           </div>
                         <div class="">

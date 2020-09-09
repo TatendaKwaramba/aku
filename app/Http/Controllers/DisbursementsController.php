@@ -160,7 +160,7 @@ class DisbursementsController extends Controller
         $handle = fopen($filename, 'w+');
         $csv_headers = ['mobile', 'destination', 'amount', 'status'];
 
-        fputcsv($handle, $csv_headers, );
+        fputcsv($handle, $csv_headers );
     
         fclose($handle);
     
