@@ -1,0 +1,194 @@
+@extends('layouts.app')
+
+@section('content')
+
+    <div class="">
+
+        <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
+            <div class="card-title valign center">
+                Validation Results
+            </div>
+            <div class="card-content valign center">
+
+    <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
+    <input type="hidden" name="json" value="{{ $json_data }}">
+    <button type="submit" class="btn btn-primary">
+        submit
+    </button>
+    <table id="dtBasicExample" class="table bordered data-table">
+  
+    @foreach ($csv_data as $row)
+      @if ($loop->first)
+          <thead>
+              <tr>
+                  @foreach ($row as $key => $value)
+                      <th>{{ $value }}</th>
+                  @endforeach
+              </tr>
+          </thead>
+          @continue
+      @endif
+    <tbody>
+      @if ($row['status'] == "FAIL")
+          <tr>
+              @foreach ($row as $key => $value)
+                  <td class="alert alert-danger">{{ $value }}</td>
+              @endforeach
+          </tr>
+      @else
+          <tr>
+              @foreach ($row as $key => $value)
+                  <td class="alert alert-success">{{ $value }}</td>
+              @endforeach
+          </tr>
+      @endif
+      </tbody>
+       @endforeach
+  </table>
+
+    </form>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+@stop
+  
+
+        //Download CVS
+        $filename = "results.csv";
+        $handle = fopen($filename, 'w+');
+        $csv_headers = ['mobile', 'firstname', 'lastname', 'state', 'address', 'email', 'deposit', 'status'];
+
+        foreach ($data as $rec) {
+            fputcsv($handle, $rec);
+        }
+    
+        fclose($handle);
+    
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+    
+        return response()->download($filename, 'results.csv', $data);
+
+
+@extends('layouts.app')
+
+@section('content')
+    <div class="">
+        <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
+            <div class="card-title valign center">
+                CSV Data
+            </div>
+            <div class="card-content valign center">
+
+    <form action="{{ route('submitdisbursements') }}" method="POST" class="form-horizontal">
+        {{ csrf_field() }}
+    <input type="hidden" name="json" value="{{ $json_data }}">
+    <button type="submit" class="btn btn-primary">
+        submit
+    </button>
+        <table class="table">
+            @foreach ($csv_data as $row)
+                @if ($loop->first)
+                    <thead class="thead-dark">
+                        <tr>
+                            @foreach ($row as $key => $value)
+                                <th>{{ $value }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    @continue
+                @endif
+                @if ($row['status'] == "FAIL")
+                    <tr>
+                        @foreach ($row as $key => $value)
+                            <td class="alert alert-danger">{{ $value }}</td>
+                        @endforeach
+                    </tr>
+                @else
+                    <tr>
+                        @foreach ($row as $key => $value)
+                            <td class="alert alert-success">{{ $value }}</td>
+                        @endforeach
+                    </tr>
+                @endif
+            @endforeach
+        </table>
+
+    </form>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+@stop
+
+@extends('layouts.app')
+
+@section('content')
+    <div class="">
+        <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
+            <div class="card-title valign center">
+                CSV Data
+            </div>
+            <div class="card-content valign center">
+        <table class="table">
+            @foreach ($data as $row)
+                @if ($loop->first)
+                    <thead class="thead-dark">
+                        <tr>
+                            @foreach ($row as $key => $value)
+                                <th>{{ $value }}</th>
+                            @endforeach
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                @endif
+            @endforeach
+            
+            @foreach ($data as $r)
+                @if($loop->first)
+                    @continue
+                @endif
+                <tr>
+                    <td class="">{{ $r['transid'] }}</td>
+                    <td class="">{{ $r['mobile'] }}</td>
+                    <td class="">{{ $r['amount'] }}</td>
+                    <td class="">{{ $r['status'] }}</td>
+                    @if(true)
+                        <td>
+                            <form method="POST" action="{{ route('validatePayment') }}">
+                                <input type="hidden" name="id" value="{{ $r['transid'] }}"/>
+                                <input type="hidden" name="json" value="{{ $json_data }}"/>
+                                <button style="border: none;" type="button" onclick="func()">
+                                    <i class="fa fa-check text-success"></i>
+                                </button>
+                            </form>
+                        </td>
+                    @else 
+                    <td>
+                        <label style="border: none;">
+                            <i class="fa fa-times text-danger"></i>
+                        </label>
+                    </td>
+                    @endif
+                    
+                </tr>
+            @endforeach
+        </table>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+@stop
+  
+  
