@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubmitDisbursements implements ShouldQueue
 {
@@ -110,6 +111,13 @@ class SubmitDisbursements implements ShouldQueue
                 }
 
                 $rec['batch'] = $this->batch;
+                DB::table('transactions')->insert([
+                    'transid' => $rec['transid'], 
+                    'mobile' => $rec['mobile'], 
+                    'amount' => $rec['amount'], 
+                    'batch' => $rec['batch'], 
+                    'state' => $rec['state'], 
+                    'status' => $rec['status']]);
                 array_push($data, $rec);
 
             }

@@ -5,7 +5,7 @@
 
         <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
             <div class="card-title valign center">
-                Validation Results
+                Approve Transactions
             </div>
             <div class="card-content valign center">
 
@@ -39,12 +39,16 @@
                 serverSide: true,
                 ajax: '{{ url('/disbursments/approve') }}',
                 columns: [{
+                    data: 'transid',
                     name: 'transid'
                 }, {
+                    data: 'mobile',
                     name: 'mobile'
                 }, {
+                    data: 'amount',
                     name: 'amount'
                 }, {
+                    data: 'state',
                     name: 'state'
                 },
                 {data: 'action', name: 'action', orderable: false, searchable: false}]

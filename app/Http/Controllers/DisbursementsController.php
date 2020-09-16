@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 
 use GuzzleHttp\Client;
 use App\Http\Requests;
@@ -99,17 +100,22 @@ class DisbursementsController extends Controller
 
     public function approve(Request $request){
 
-        $path =  \storage_path('app\result\result.csv');
-        $data = array_map("str_getcsv", file($path));
-        $csv_data = array_slice($data, 0);
-
-        unset($csv_data[0]);
+        $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
+        // $csv = \json_decode($transactions);
+        // $path =  \storage_path('app\result\result.csv');
+        // $data = array_map("str_getcsv", file($path));
+        // $csv_data = array_slice($data, 0);
+        
         if ($request->ajax()) {
-            return Datatables::of($csv_data)
+            return Datatables::of($transactions)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $btn = ' <a href="/disbursements/'.$row[0].'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
+                        if($row->state == 'Approved'){
+                            return '<button class="btn" disabled>Approved</button>';
+                        } else {
+                            $btn = ' <a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
                             return $btn;
+                        }
                     })
                     ->rawColumns(['action'])
                     ->make(true);
@@ -139,6 +145,10 @@ class DisbursementsController extends Controller
             
             'json' => $info
         ]);
+        
+        DB::table('transactions')
+            ->where('transid', $transid)
+            ->update(['state' => 'Approved']);
         
         return back()->with('success','Transaction has been successfully approved');
         //return view('disbursements.approve', compact('data', 'json_data')); 
