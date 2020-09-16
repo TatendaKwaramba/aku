@@ -22,17 +22,19 @@ class SubmitDisbursements implements ShouldQueue
 
     protected $data = array();
     protected $email;
+    protected $batch;
     public $tries = 5;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data, $email)
+    public function __construct($data, $email, $batch)
     {
         //
         $this->data = $data;
         $this->email = $email;
+        $this->batch = $batch;
     }
 
     /**
@@ -42,15 +44,18 @@ class SubmitDisbursements implements ShouldQueue
      */
     public function handle()
     {
-        $array = array();
         $data = array();
+        $array = array();
         $array = $this->data;
-
         //
         $client = new Client();
         if($array){   
         $flag = FALSE;
         foreach ($array as $rec) {
+            if(!$flag){
+                array_push($data, $rec);
+                $flag = TRUE;
+            }
             
             if($rec['status'] == "PASS"){
 
@@ -97,12 +102,14 @@ class SubmitDisbursements implements ShouldQueue
                 
                 if($response[0]['code'] == 00){
                     $rec['state'] = "Successfully Initiated";
+                    $rec['transid'] = $response[0]['transaction']['id'];
                 }elseif($response[0]['code'] == 01){
                     $rec['state'] = "Client does not exist";
                 } else {
                     $rec['state'] = "Error";
                 }
 
+                $rec['batch'] = $this->batch;
                 array_push($data, $rec);
 
             }
@@ -114,9 +121,9 @@ class SubmitDisbursements implements ShouldQueue
         Storage::put('result/result.csv', '');
         $filepath = \storage_path('app\result\result.csv');
         $handle = fopen($filepath, 'w+');
-        $csv_headers = ['transid', 'mobile', 'amount', 'state', 'status'];
+        $csv_headers = ['transid', 'mobile', 'amount', 'batch', 'state', 'status'];
 
-        foreach ($dat as $rec) {
+        foreach ($data as $rec) {
             fputcsv($handle, $rec);
         }
 

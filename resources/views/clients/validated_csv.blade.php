@@ -12,9 +12,15 @@
                 <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
                     {{ csrf_field() }}
                     <input type="hidden" name="json" value="{{ $json_data }}">
-                    <button type="submit" class="btn btn-primary">
-                        submit
-                    </button>
+                    <div class="input-field col s2">
+                        <button type="submit" class="btn btn-primary">
+                            submit
+                        </button>
+                      </div>
+                    <div class="input-field col s4">
+                        <input id="batch_name" name="batchname" type="text" class="">
+                        <label for="batch_name">Enter Batch Name</label>
+                    </div>
                     <table id="myTable" class="table bordered data-table">
                         <thead>
                             <tr>

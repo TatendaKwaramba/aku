@@ -22,17 +22,19 @@ class SubmitSubscribers implements ShouldQueue
 
     protected $data = array();
     protected $email;
+    protected $batch;
     public $tries = 5;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($array, $email)
+    public function __construct($array, $email, $batch)
     {
         //
         $this->data = $array;
         $this->email = $email;
+        $this->batch = $batch;
     }
 
     /**
@@ -49,8 +51,12 @@ class SubmitSubscribers implements ShouldQueue
         $client = new Client();
         $flag = FALSE;
         foreach ($array as $rec) {
-
-            if($rec['status'] !== "FAIL"){
+            if(!$flag){
+                array_push($data, $rec);
+                $flag = TRUE;
+            }
+            
+            if($rec['status'] == "PASS"){
 
                 //create payload
                 $info = array(
@@ -103,6 +109,7 @@ class SubmitSubscribers implements ShouldQueue
                     $rec[7] = "Error";
                 }
 
+                $rec['batch'] = $this->batch;
                 array_push($data, $rec);  
 
             }
@@ -114,7 +121,7 @@ class SubmitSubscribers implements ShouldQueue
         Storage::put('results/results.csv', '');
         $filepath = \storage_path('app\results\results.csv');
         $handle = fopen($filepath, 'w+');
-        $csv_headers = ['mobile', 'firstname', 'lastname', 'state', 'address', 'email', 'deposit', 'status'];
+        $csv_headers = ['mobile', 'firstname', 'lastname', 'address', 'email', 'batch', 'state', 'status'];
 
         foreach ($data as $rec) {
             fputcsv($handle, $rec);

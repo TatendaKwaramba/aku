@@ -35,6 +35,7 @@ class ClientController extends Controller
 
     public function getBulkValidate(Request $request) 
     {
+            $data_array = array();
             $path =  \storage_path('app\subscribers\subscribers.csv');
             $data = array_map("str_getcsv", file($path));
             $csv_data = array_slice($data, 0);
@@ -46,20 +47,32 @@ class ClientController extends Controller
 
             // adding hidden columns
             foreach($csv as &$row){
-                $row['deposit'] = "deposit";
+                $row['batch'] = "batch";
                 $row['state'] = "state";
                 $row['status'] = "status";
                 break;
             }
+
+            $header = array(
+                'mobile' => 'mobile',
+                'firstname' => 'firstname',
+                'lastname' => 'lastname',
+                'address' => 'address',
+                'email' => 'email',
+                'batch' => 'batch',
+                'state' => 'state',
+                'status' => 'status'
+            );
             //flag to skip the first header row;
             $flag = FALSE;
             foreach ($csv as &$row) {
                 if(!$flag){ 
+                    array_push($data_array, $header);
                     $flag = TRUE;
                     continue; 
                 }
 
-                $row['deposit'] = "0";
+                $row['batch'] = "";
                 $row['state'] = "ACTIVE";
 
                 if(!(($this->valid_mobile($row['mobile'])) && ($this->valid_name($row['firstname'])) && ($this->valid_name($row['lastname'])))){
@@ -74,12 +87,13 @@ class ClientController extends Controller
                     }
                     $row['status'] = "PASS";
                 }
+                array_push($data_array, $row);
             }
 
-            $json_data = json_encode($csv);
-            unset($csv[0]);
+            $json_data = json_encode($data_array);
+            unset($data_array[0]);
             if ($request->ajax()) {
-                return Datatables::of($csv)
+                return Datatables::of($data_array)
                         ->addIndexColumn()
                         ->make(true);
             }
@@ -89,6 +103,7 @@ class ClientController extends Controller
 
     public function submitUsers(Request $request){
    
+        $batch_name = $request->input('batchname');
         ini_set('max_execution_time', '5000');
         $array = json_decode($request->json, true);
 
@@ -96,7 +111,7 @@ class ClientController extends Controller
         $email = $user->email;
 
         //Dispatch a Job
-        SubmitSubscribers::dispatch($array, $email);
+        SubmitSubscribers::dispatch($array, $email, $batch_name);
         
         return back()->with('success','Your Batch is being processed! An email will be sent to '.$email.' when done');
 

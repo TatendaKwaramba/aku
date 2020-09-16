@@ -213,7 +213,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('/disbursements/submitdisbursements', 'DisbursementsController@submitDisbursements')->name('submitdisbursements');
     Route::get('/disbursements/exporttemplate', 'DisbursementsController@exportTemplate')->name('export');
     Route::get('/disbursments/approve', 'DisbursementsController@approve')->name('approve');
-    Route::post('/disbursments/validate', 'DisbursementsController@validatePayment')->name('validatePayment');
+    Route::get('/disbursements/{transid}/approve', 'DisbursementsController@validatePayment')->name('validatePayment');
     Route::get('/disbursments/datatable', 'DisbursementsController@getDisbursementsValidate')->name('getDisbursementsValidate');
     Route::get('/disbursments/email', 'ClientController@emailCsv')->name('emailCsv');
 

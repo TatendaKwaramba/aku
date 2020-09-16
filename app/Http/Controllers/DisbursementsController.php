@@ -37,6 +37,7 @@ class DisbursementsController extends Controller
 
     public function getDisbursementsValidate(Request $request){
 
+        $data_array = array();
         $path =  \storage_path('app\disbursements\disbursements.csv');
         $data = array_map("str_getcsv", file($path));
         $csv_data = array_slice($data, 0);
@@ -47,15 +48,28 @@ class DisbursementsController extends Controller
         }
         // adding hidden columns
         foreach($csv as &$row){
+            $row['batch'] = "batch";
             $row['state'] = "state";
             $row['status'] = "status";
             break;
         }
 
         
-        //flag to skip the first header row;
+        $header = array(
+            'transid' => 'transid',
+            'mobile' => 'mobile',
+            'amount' => 'amount',
+            'batch' => 'batch',
+            'state' => 'state',
+            'status' => 'status'
+        );
         $flag = FALSE;
         foreach ($csv as &$row) {
+            if(!$flag){
+                array_push($data_array, $header);
+                $flag = TRUE;
+            }
+            $row['batch'] = '';
             $row['state'] = '';
 
             if(($this->valid_mobile($row['mobile']))  && $this->valid_deposit($row['amount'])){
@@ -63,12 +77,14 @@ class DisbursementsController extends Controller
             }else {
                 $row['status'] = "FAIL";
             }
+
+            array_push($data_array, $row);
         }
 
-        $json_data = json_encode($csv);
-        unset($csv[0]);
+        $json_data = json_encode($data_array);
+        unset($data_array[0]);
         if ($request->ajax()) {
-            return Datatables::of($csv)
+            return Datatables::of($data_array)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
                         $btn = ' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
@@ -92,7 +108,7 @@ class DisbursementsController extends Controller
             return Datatables::of($csv_data)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                        $btn = ' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
+                        $btn = ' <a href="/disbursements/'.$row[0].'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
                             return $btn;
                     })
                     ->rawColumns(['action'])
@@ -101,7 +117,7 @@ class DisbursementsController extends Controller
         return view('disbursements.approve', compact('csv_data'));
     }
 
-    public function validatePayment(Request $request){
+    public function validatePayment(Request $request, $transid){
         
         $json_data = json_decode($request->json);
         $data = $json_data;
@@ -109,11 +125,11 @@ class DisbursementsController extends Controller
         $info = array(
             "agent_id" => 1472,
             "admin_id" => 1,
-            "sms" => "Akupay: you have received a payment of 10.00 from Samsoftx..",
+            "sms" => "Akupay: you have received a new payment",
             "type" => "validate",
             "disbursements" => [
                 [
-                    "transId" => 1286463
+                    "transId" => $transid
                 ]
             ]
         );
@@ -124,16 +140,18 @@ class DisbursementsController extends Controller
             'json' => $info
         ]);
         
+        return back()->with('success','Transaction has been successfully approved');
         //return view('disbursements.approve', compact('data', 'json_data')); 
     }
 
     public function submitDisbursements(Request $request){
         
+        $batch_name = $request->input('batchname');
         ini_set('max_execution_time', '5000');
         $array = json_decode($request->json, true);
         $user = User::findOrFail(Auth::user()->id);
         $email = $user->email;
-        SubmitDisbursements::dispatch($array, $email);
+        SubmitDisbursements::dispatch($array, $email, $batch_name);
 
         return back()->with('success','Your Batch is being processed! An email will be sent to '.$email.' when done'); 
 

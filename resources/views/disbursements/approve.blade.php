@@ -39,21 +39,16 @@
                 serverSide: true,
                 ajax: '{{ url('/disbursments/approve') }}',
                 columns: [{
-                    data: 'transid',
                     name: 'transid'
                 }, {
-                    data: 'mobile',
                     name: 'mobile'
                 }, {
-                    data: 'amount',
                     name: 'amount'
                 }, {
-                    data: 'state',
                     name: 'state'
                 },
                 {data: 'action', name: 'action', orderable: false, searchable: false}]
             });
         });
-
     </script>
 @endpush
