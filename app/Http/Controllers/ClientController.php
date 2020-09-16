@@ -68,8 +68,7 @@ class ClientController extends Controller
             foreach ($csv as &$row) {
                 if(!$flag){ 
                     array_push($data_array, $header);
-                    $flag = TRUE;
-                    continue; 
+                    $flag = TRUE; 
                 }
 
                 $row['batch'] = "";
