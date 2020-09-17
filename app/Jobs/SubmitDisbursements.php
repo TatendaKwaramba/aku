@@ -61,7 +61,7 @@ class SubmitDisbursements implements ShouldQueue
             if($rec['status'] == "PASS"){
 
                 // Fetch mobile account destination
-                $result = $client->get('http://api.akupay.ng:8100/api/v1/client/account/'.$rec['mobile'], [
+                $result = $client->get('http://api.akupay.ng:8100/api/v1/client/account/'.$rec['mobile'].'/'.$rec['firstname'].'/'.$rec['lastname'], [
                     'headers' => ['Content-type' => 'application/json']
                 ]);
                  

@@ -12,16 +12,16 @@
 */
 
 //Override
-//Route::post('/password/reset/');
+Route::post('/password/reset/');
 use Illuminate\Support\Facades\Route;
 
 
-//Auth::routes();
+Auth::routes();
 
-//Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
+Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
-//Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
+Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
 
 
     Route::get('/', 'HomeController@index');
@@ -181,9 +181,9 @@ use Illuminate\Support\Facades\Route;
     Route::post('/api/reports/rank', 'RankingsController@rankAgents');
     Route::get('/api/reports/excel', 'RankingsController@excelTest');
 
-//});
+});
 
-//Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
+Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
 
     Route::get('/accounting/adjustments', 'AccountingController@getAdjustment');
 
@@ -216,6 +216,7 @@ use Illuminate\Support\Facades\Route;
     Route::get('/disbursements/{transid}/approve', 'DisbursementsController@validatePayment')->name('validatePayment');
     Route::get('/disbursments/datatable', 'DisbursementsController@getDisbursementsValidate')->name('getDisbursementsValidate');
     Route::get('/disbursments/email', 'ClientController@emailCsv')->name('emailCsv');
+    Route::post('/disbursments/multivalidate', 'DisbursementsController@multiValidatePayment')->name('multiValidatePayment');
 
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');
@@ -311,5 +312,5 @@ use Illuminate\Support\Facades\Route;
 
     //Activity Logs
     Route::get('/reports/activity-logs', 'SettingsController@getActivityLogs');
-//});
+});
 //************

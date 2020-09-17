@@ -9,8 +9,12 @@
             </div>
             <div class="card-content valign center">
 
-                <form action="{{ route('submitdisbursements') }}" method="POST" class="form-horizontal">
+                <form action="{{ route('multiValidatePayment') }}" method="POST" class="form-horizontal">
                     {{ csrf_field() }}
+                    <input type="hidden" name="json" value="{{ $csv_data }}">
+                        <button type="submit" class="btn btn-primary">
+                            Approve_All
+                        </button>
                     <table id="myTable" class="table bordered data-table">
                         <thead>
                             <tr>

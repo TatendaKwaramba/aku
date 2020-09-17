@@ -59,6 +59,8 @@ class DisbursementsController extends Controller
         $header = array(
             'transid' => 'transid',
             'mobile' => 'mobile',
+            'firstname' => 'firstname',
+            'lastname' => 'lastname',
             'amount' => 'amount',
             'batch' => 'batch',
             'state' => 'state',
@@ -82,6 +84,7 @@ class DisbursementsController extends Controller
             array_push($data_array, $row);
         }
 
+        //return $data_array;
         $json_data = json_encode($data_array);
         unset($data_array[0]);
         if ($request->ajax()) {
@@ -101,10 +104,6 @@ class DisbursementsController extends Controller
     public function approve(Request $request){
 
         $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
-        // $csv = \json_decode($transactions);
-        // $path =  \storage_path('app\result\result.csv');
-        // $data = array_map("str_getcsv", file($path));
-        // $csv_data = array_slice($data, 0);
         
         if ($request->ajax()) {
             return Datatables::of($transactions)
@@ -120,6 +119,7 @@ class DisbursementsController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
+        $csv_data = \json_encode($transactions);
         return view('disbursements.approve', compact('csv_data'));
     }
 
@@ -152,6 +152,41 @@ class DisbursementsController extends Controller
         
         return back()->with('success','Transaction has been successfully approved');
         //return view('disbursements.approve', compact('data', 'json_data')); 
+    }
+
+    public function multiValidatePayment(Request $request){
+        $json_data = json_decode($request->json, true);
+        $data = $json_data;
+        $client = new Client();
+
+        foreach($data as $rec){
+            if($rec['state'] !== 'Approved'){
+                $info = array(
+                    "agent_id" => 1472,
+                    "admin_id" => 1,
+                    "sms" => "Akupay: you have received a new payment",
+                    "type" => "validate",
+                    "disbursements" => [
+                        [
+                            "transId" => $rec['transid']
+                        ]
+                    ]
+                );
+        
+                $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
+                    'headers' => ['Content-type' => 'application/json'],
+                    
+                    'json' => $info
+                ]);
+                
+                DB::table('transactions')
+                    ->where('transid', $rec['transid'])
+                    ->update(['state' => 'Approved']);
+            }
+            }
+            
+        
+        return back()->with('success','Transaction has been successfully approved');
     }
 
     public function submitDisbursements(Request $request){
