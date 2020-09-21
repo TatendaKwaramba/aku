@@ -9,15 +9,15 @@
             </div>
             <div class="card-content valign center">
 
-                <form action="{{ route('multiValidatePayment') }}" method="POST" class="form-horizontal">
+                <form action="{{ route('multiValidatePayment') }}" method="POST" id="tableform" class="form-horizontal">
                     {{ csrf_field() }}
-                    <input type="hidden" name="json" value="{{ $csv_data }}">
                         <button type="submit" class="btn btn-primary">
                             Approve_All
                         </button>
-                    <table id="myTable" class="table bordered data-table">
+                    <table id="myTable" class="display" data-page-length='50'>
                         <thead>
                             <tr>
+                                <th><input type="button" class="check_header"value="Check All"/></th>
                                 <th>trans_id</th>
                                 <th>mobile</th>
                                 <th>amount</th>
@@ -38,11 +38,15 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
+            var ttable = $('#myTable').DataTable({
+                dom: 'Blfrtip',
                 processing: true,
                 serverSide: true,
                 ajax: '{{ url('/disbursments/approve') }}',
-                columns: [{
+                columns: [ {
+                                    name: 'checkbox',
+                                    data: 'checkbox', orderable: false
+                                }, {
                     data: 'transid',
                     name: 'transid'
                 }, {
@@ -55,8 +59,24 @@
                     data: 'state',
                     name: 'state'
                 },
-                {data: 'action', name: 'action', orderable: false, searchable: false}]
+                {data: 'action', name: 'action', orderable: false, searchable: false}
+              ]
             });
-        });
+
+            document.querySelector('.check_header').addEventListener('click', e => {
+                if (e.target.value == 'Check All') {
+                    document.querySelectorAll('.checkall').forEach(checkbox => {
+                    checkbox.checked = true;
+                    });
+                    e.target.value = 'Uncheck All';
+                } else {
+                    document.querySelectorAll('.checkall').forEach(checkbox => {
+                    checkbox.checked = false;
+                    });
+                    e.target.value = 'Check All';
+                }
+            });
+
+    });
     </script>
 @endpush

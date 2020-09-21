@@ -36,6 +36,11 @@ return [
     ],
 
     /*
+     * Addding Show entries
+     */
+    'dom' => 'Blfrtip',
+
+    /*
      * DataTables internal index id response column name.
      */
     'index_column'   => 'DT_RowIndex',

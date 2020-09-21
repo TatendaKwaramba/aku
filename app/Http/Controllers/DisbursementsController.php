@@ -108,6 +108,13 @@ class DisbursementsController extends Controller
         if ($request->ajax()) {
             return Datatables::of($transactions)
                     ->addIndexColumn()
+                    ->addColumn('checkbox', function($row){
+                        if($row->state == 'Approved'){
+                            return '<div><input id="'.$row->transid.'" class="checks" type="checkbox" disabled/><label for="'.$row->transid.'"></label></div>';
+                        } else {
+                        return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
+                        }
+                    })
                     ->addColumn('action', function($row){
                         if($row->state == 'Approved'){
                             return '<button class="btn" disabled>Approved</button>';
@@ -116,7 +123,7 @@ class DisbursementsController extends Controller
                             return $btn;
                         }
                     })
-                    ->rawColumns(['action'])
+                    ->rawColumns(['action', 'checkbox'])
                     ->make(true);
         }
         $csv_data = \json_encode($transactions);
@@ -155,12 +162,11 @@ class DisbursementsController extends Controller
     }
 
     public function multiValidatePayment(Request $request){
-        $json_data = json_decode($request->json, true);
-        $data = $json_data;
+        $data = $request->input('transid');
+        return $request->all();
         $client = new Client();
 
         foreach($data as $rec){
-            if($rec['state'] !== 'Approved'){
                 $info = array(
                     "agent_id" => 1472,
                     "admin_id" => 1,
@@ -168,7 +174,7 @@ class DisbursementsController extends Controller
                     "type" => "validate",
                     "disbursements" => [
                         [
-                            "transId" => $rec['transid']
+                            "transId" => $rec
                         ]
                     ]
                 );
@@ -180,9 +186,8 @@ class DisbursementsController extends Controller
                 ]);
                 
                 DB::table('transactions')
-                    ->where('transid', $rec['transid'])
+                    ->where('transid', $rec)
                     ->update(['state' => 'Approved']);
-            }
             }
             
         
@@ -208,7 +213,7 @@ class DisbursementsController extends Controller
         $handle = fopen($filename, 'w+');
         $csv_headers = ['mobile', 'destination', 'amount', 'status'];
 
-        fputcsv($handle, $csv_headers, );
+        fputcsv($handle, $csv_headers);
     
         fclose($handle);
     

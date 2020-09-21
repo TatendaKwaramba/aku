@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use GuzzleHttp\Client;
 use App\Mail\Disbursements;
+use App\Mail\FailedJob;
 use App\User;
 
 use Illuminate\Bus\Queueable;
@@ -61,7 +62,7 @@ class SubmitDisbursements implements ShouldQueue
             if($rec['status'] == "PASS"){
 
                 // Fetch mobile account destination
-                $result = $client->get('http://api.akupay.ng:8100/api/v1/client/account/'.$rec['mobile'].'/'.$rec['firstname'].'/'.$rec['lastname'], [
+                $result = $client->get('http://api.akupay.ng:8100/api/v1/client/account/'.$rec['mobile'], [
                     'headers' => ['Content-type' => 'application/json']
                 ]);
                  
@@ -124,7 +125,6 @@ class SubmitDisbursements implements ShouldQueue
 
         }
 
-        //Download CVS
         //Storage::delete('results.csv');
         Storage::put('result/result.csv', '');
         $filepath = \storage_path('app\result\result.csv');
@@ -143,5 +143,12 @@ class SubmitDisbursements implements ShouldQueue
             $email = 'kwarambaandy@gmail.com';
             Mail::to($email)->send();
         }
+    }
+
+    public function failed(Throwable $exception)
+    {
+        // Send user notification of failure, etc...
+        $message = 'Bulk transaction submission failed, Please check your network and try again.';
+        Mail::to($this->email)->send(new FailedJob($message));
     }
 }

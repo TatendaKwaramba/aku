@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
-//Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
+Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
 //Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
@@ -217,6 +217,9 @@ use Illuminate\Support\Facades\Route;
     Route::get('/disbursments/datatable', 'DisbursementsController@getDisbursementsValidate')->name('getDisbursementsValidate');
     Route::get('/disbursments/email', 'ClientController@emailCsv')->name('emailCsv');
     Route::post('/disbursments/multivalidate', 'DisbursementsController@multiValidatePayment')->name('multiValidatePayment');
+
+    //Transfer Funds
+    Route::get('/transfer/paystack', 'TransfersController@transfer')->name('transfer');
 
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');
