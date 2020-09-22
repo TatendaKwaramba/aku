@@ -16,12 +16,12 @@
 use Illuminate\Support\Facades\Route;
 
 
-//Auth::routes();
+Auth::routes();
 
 Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
-//Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
+Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
 
 
     Route::get('/', 'HomeController@index');
@@ -181,9 +181,9 @@ Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
     Route::post('/api/reports/rank', 'RankingsController@rankAgents');
     Route::get('/api/reports/excel', 'RankingsController@excelTest');
 
-//});
+});
 
-//Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
+Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
 
     Route::get('/accounting/adjustments', 'AccountingController@getAdjustment');
 
@@ -218,9 +218,6 @@ Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
     Route::get('/disbursments/email', 'ClientController@emailCsv')->name('emailCsv');
     Route::post('/disbursments/multivalidate', 'DisbursementsController@multiValidatePayment')->name('multiValidatePayment');
 
-    //Transfer Funds
-    Route::get('/transfer/paystack', 'TransfersController@transfer')->name('transfer');
-
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');
     Route::get('/reports/dashboard', 'DashboardController@getDashboard');
@@ -239,6 +236,8 @@ Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
     Route::get('/business/supervisor/view', 'BusinessController@getViewSupervisor');
     Route::get('/business/validation/pending', 'BusinessController@getPendingValidations');
     Route::get('/business/validation/bank_transfer/pending', 'BusinessController@getPendingBankTransfers');
+    Route::post('/business/transfer', 'BusinessController@transfer');
+    Route::post('/business/transfer/notification', 'BusinessController@showMessage');
 
     //Products
     Route::get('/product/add', 'ProductController@getAddProduct');
@@ -315,5 +314,5 @@ Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
     //Activity Logs
     Route::get('/reports/activity-logs', 'SettingsController@getActivityLogs');
-//});
+});
 //************

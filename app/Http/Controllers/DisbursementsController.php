@@ -14,6 +14,7 @@ use Yajra\Datatables\Datatables;
 use App\Mail\Disbursements;
 use App\User;
 use App\Jobs\SubmitDisbursements;
+use App\Jobs\ApproveDisbursements;
 
 
 class DisbursementsController extends Controller
@@ -102,7 +103,7 @@ class DisbursementsController extends Controller
     }
 
     public function approve(Request $request){
-
+        
         $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
         
         if ($request->ajax()) {
@@ -163,35 +164,12 @@ class DisbursementsController extends Controller
 
     public function multiValidatePayment(Request $request){
         $data = $request->input('transid');
-        return $request->all();
-        $client = new Client();
+        ini_set('max_execution_time', '5000');
+        $user = User::findOrFail(Auth::user()->id);
+        $email = $user->email;
+        ApproveDisbursements::dispatch($data, $email);
 
-        foreach($data as $rec){
-                $info = array(
-                    "agent_id" => 1472,
-                    "admin_id" => 1,
-                    "sms" => "Akupay: you have received a new payment",
-                    "type" => "validate",
-                    "disbursements" => [
-                        [
-                            "transId" => $rec
-                        ]
-                    ]
-                );
-        
-                $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
-                    'headers' => ['Content-type' => 'application/json'],
-                    
-                    'json' => $info
-                ]);
-                
-                DB::table('transactions')
-                    ->where('transid', $rec)
-                    ->update(['state' => 'Approved']);
-            }
-            
-        
-        return back()->with('success','Transaction has been successfully approved');
+        return back()->with('success','Transactions are being processed, an email will be send to '.$email.' when the process has completed');
     }
 
     public function submitDisbursements(Request $request){
@@ -211,9 +189,11 @@ class DisbursementsController extends Controller
 
         $filename = "disbursements.csv";
         $handle = fopen($filename, 'w+');
-        $csv_headers = ['mobile', 'destination', 'amount', 'status'];
+        $csv_headers = ['transid', 'mobile', 'amount'];
+        $sample = ['1', '263771895678', '48.8'];
 
         fputcsv($handle, $csv_headers);
+        fputcsv($handle, $sample);
     
         fclose($handle);
     

@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use GuzzleHttp\Client;
 use App\Mail\Disbursements;
-use App\Mail\FailedJob;
+use App\Mail\FailedDisbursements;
 use App\User;
 
 use Illuminate\Bus\Queueable;
@@ -149,6 +149,6 @@ class SubmitDisbursements implements ShouldQueue
     {
         // Send user notification of failure, etc...
         $message = 'Bulk transaction submission failed, Please check your network and try again.';
-        Mail::to($this->email)->send(new FailedJob($message));
+        Mail::to($this->email)->send(new FailedDisbursements);
     }
 }

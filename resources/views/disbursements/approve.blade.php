@@ -17,7 +17,7 @@
                     <table id="myTable" class="display" data-page-length='50'>
                         <thead>
                             <tr>
-                                <th><input type="button" class="check_header"value="Check All"/></th>
+                                <th><input type="button" class="check_header waves-effect waves-teal btn-flat" value="Select All"/></th>
                                 <th>trans_id</th>
                                 <th>mobile</th>
                                 <th>amount</th>
@@ -64,16 +64,16 @@
             });
 
             document.querySelector('.check_header').addEventListener('click', e => {
-                if (e.target.value == 'Check All') {
+                if (e.target.value == 'Select All') {
                     document.querySelectorAll('.checkall').forEach(checkbox => {
                     checkbox.checked = true;
                     });
-                    e.target.value = 'Uncheck All';
+                    e.target.value = 'Deselect All';
                 } else {
                     document.querySelectorAll('.checkall').forEach(checkbox => {
                     checkbox.checked = false;
                     });
-                    e.target.value = 'Check All';
+                    e.target.value = 'Select All';
                 }
             });
 

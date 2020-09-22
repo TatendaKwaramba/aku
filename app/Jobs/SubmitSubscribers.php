@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use GuzzleHttp\Client;
 use App\Mail\CsvMailer;
-use App\Mail\FailedJob;
+use App\Mail\FailedRegistration;
 use App\User;
 
 use Illuminate\Bus\Queueable;
@@ -144,6 +144,6 @@ class SubmitSubscribers implements ShouldQueue
    {
        // Send user notification of failure, etc...
        $message = 'Bulk subscribers registration, Please check your network and try again.';
-       Mail::to($this->email)->send(new FailedJob($message));
+       Mail::to($this->email)->send(new FailedRegistration);
    }
 }

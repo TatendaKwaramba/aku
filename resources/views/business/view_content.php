@@ -122,10 +122,19 @@
                 include 'businessFloatManagement.php';
 
             } ?>
+            <br><br>
+            <form method="post" action="/business/transfer">
+                <input type="hidden" name="data" value="{{businessInfo}}"/>
+                <?php if (Entrust::ability(UiController::getRolesForElement(20009), array())){
+                    include 'businessBankTransfers.php';
+                } ?>
+            </form>
 
+            <br><br>
             <?php if (Entrust::ability(UiController::getRolesForElement(20007), array())){
                 include 'businessBankTransfer.php';
             } ?>
+           
 
 
         </div>
@@ -354,7 +363,7 @@
                         <td>{{$index + 1}} {{$index.length}}</td>
                         <td>{{agent_device.imei }}</td>
                         <td>{{agent_device.name}}</td>
-                        <td>{{agent_device.activationCode}}</td>
+                        <td>*** ***</td>
                         <td>{{agent_device.status | uppercase}}</td>
                         <td>{{agent_device.lastUse | date:'dd/MM/yyyy @ h:mma'}}</td>
                     </tr>
@@ -426,7 +435,7 @@
                         <td>{{$index + 1}} {{$index.length}}</td>
                         <td>{{employee.firstname | uppercase }}</td>
                         <td>{{employee.cellphone}}</td>
-                        <td>{{employee.passcode | limitTo : 10}}</td>
+                        <td>*** ***</td>
                         <td>{{employee.status | uppercase}}</td>
                         <td><a class="btn chip akupay accent-3" ng-click="activateEmployee(employee)"><i
                                     class="fa fa-check"></i></a></td>

@@ -121,8 +121,10 @@ class ClientController extends Controller
             $filename = "subscribers.csv";
             $handle = fopen($filename, 'w+');
             $csv_headers = ['mobile', 'firstname', 'lastname', 'address', 'email'];
+            $sample = ['263762000000', 'John', 'Doe', 'Lagos, Nigeria', 'example@domain.com'];
 
             fputcsv($handle, $csv_headers );
+            fputcsv($handle, $sample );
         
             fclose($handle);
         
@@ -164,23 +166,6 @@ class ClientController extends Controller
     public function submitDisbursment(Request $request){
         return $request->input('json');
     }
-
-    public function exportDisbursmentsTemplate(){
-
-        $filename = "disbursments.csv";
-        $handle = fopen($filename, 'w+');
-        $csv_headers = ['mobile', 'destination', 'amount', 'status'];
-
-        fputcsv($handle, $csv_headers);
-    
-        fclose($handle);
-    
-        $headers = array(
-            'Content-Type' => 'text/csv',
-        );
-    
-        return response()->download($filename, 'disbursments.csv', $headers);
-}
 
     public function getAddClient(){
         return view('clients.add');
