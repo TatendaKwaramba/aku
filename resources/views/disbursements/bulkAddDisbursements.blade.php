@@ -9,7 +9,7 @@
                     <form action="{{ action('DisbursementsController@getDisbursementsValidate') }}" method="GET" enctype="multipart/form-data">
                         @csrf
                         <div class="file-field input-field">
-                            <div class="btn">
+                            <div class="btn blue">
                               <span id="filespan">Upload</span>
                               <span id="filestate"></span>
                               <input name="file" accept=".csv" type="file" id="file">
@@ -19,8 +19,8 @@
                             </div>
                           </div>
                         <div class="">
-                            <button type="submit" class="btn">Validate Data</button>
-                            <a class="btn" href="{{ url('disbursements/exporttemplate') }}">Download Template
+                            <button type="submit" class="btn blue">Validate Data</button>
+                            <a class="btn blue" href="{{ url('disbursements/exporttemplate') }}">Download Template
                             </a>
                         </div>
                         

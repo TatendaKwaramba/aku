@@ -13,7 +13,7 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="json" value="{{ $json_data }}">
                     <div class="input-field col s2">
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn blue btn-primary">
                             submit
                         </button>
                       </div>

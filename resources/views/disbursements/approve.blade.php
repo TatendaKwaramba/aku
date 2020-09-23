@@ -11,7 +11,7 @@
 
                 <form action="{{ route('multiValidatePayment') }}" method="POST" id="tableform" class="form-horizontal">
                     {{ csrf_field() }}
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn blue btn-primary">
                             Approve_All
                         </button>
                     <table id="myTable" class="display" data-page-length='50'>

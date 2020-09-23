@@ -7,8 +7,8 @@
 
 
 @if ($message = Session::get('error'))
-<div class="alert alert-danger alert-block">
-	<button type="button" class="btn close" data-dismiss="alert">×</button>	
+<div class=" card red darken-1 alert alert-danger alert-block">
+	<button type="button" class="btn grey close" data-dismiss="alert">×</button>	
         <strong>{{ $message }}</strong>
 </div>
 @endif

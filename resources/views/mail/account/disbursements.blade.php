@@ -1,7 +1,7 @@
 @extends('mail.layout')
 
 @section('tr1')
-    <h3Subscribers Registration Completed Successfully></h3>
+    <h3>Bulk Submission of Transactions has Completed Successfully</h3>
 @endsection
 
 @section('tr2')

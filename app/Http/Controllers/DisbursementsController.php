@@ -104,7 +104,10 @@ class DisbursementsController extends Controller
 
     public function approve(Request $request){
         
-        $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
+        $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')
+                                                ->orderBy('transid', 'desc')                                        
+                                                ->get();
+        //return $transactions[0]->state;
         
         if ($request->ajax()) {
             return Datatables::of($transactions)
@@ -120,7 +123,7 @@ class DisbursementsController extends Controller
                         if($row->state == 'Approved'){
                             return '<button class="btn" disabled>Approved</button>';
                         } else {
-                            $btn = ' <a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn  deleteItem">Approve</a>';
+                            $btn = ' <a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn blue deleteItem">Approve</a>';
                             return $btn;
                         }
                     })
@@ -136,29 +139,38 @@ class DisbursementsController extends Controller
         $json_data = json_decode($request->json);
         $data = $json_data;
         $client = new Client();
-        $info = array(
-            "agent_id" => 1472,
-            "admin_id" => 1,
-            "sms" => "Akupay: you have received a new payment",
-            "type" => "validate",
-            "disbursements" => [
-                [
-                    "transId" => $transid
-                ]
-            ]
-        );
+        $results = DB::table('transactions')
+                            ->select('state')
+                            ->where('transid', '=', $transid)
+                            ->get();
 
-        $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
-            'headers' => ['Content-type' => 'application/json'],
+        if($results[0]->state == "Successfully Initiated"){
+            $info = array(
+                "agent_id" => 1472,
+                "admin_id" => 1,
+                "sms" => "Akupay: you have received a new payment",
+                "type" => "validate",
+                "disbursements" => [
+                    [
+                        "transId" => $transid
+                    ]
+                ]
+            );
+    
+            $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
+                'headers' => ['Content-type' => 'application/json'],
+                
+                'json' => $info
+            ]);
             
-            'json' => $info
-        ]);
-        
-        DB::table('transactions')
-            ->where('transid', $transid)
-            ->update(['state' => 'Approved']);
-        
-        return back()->with('success','Transaction has been successfully approved');
+            DB::table('transactions')
+                ->where('transid', $transid)
+                ->update(['state' => 'Approved']);
+    
+            return back()->with('success','Transaction has been successfully approved');
+        }
+                
+        return back()->with('error','Could not approve the transaction. Please if its properly initiated');
         //return view('disbursements.approve', compact('data', 'json_data')); 
     }
 

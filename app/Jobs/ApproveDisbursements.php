@@ -48,6 +48,9 @@ class ApproveDisbursements implements ShouldQueue
         $client = new Client();
 
         foreach($data as $rec){
+            $results = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
+
+            if($results[0]->state == 'Successfully Initiated'){
                 $info = array(
                     "agent_id" => 1472,
                     "admin_id" => 1,
@@ -69,13 +72,14 @@ class ApproveDisbursements implements ShouldQueue
                 DB::table('transactions')
                     ->where('transid', $rec)
                     ->update(['state' => 'Approved']);
+                }
+            
             }
 
             $message = array(
                 "message" => 'Bulk transaction approval process is complete!'
             );
             Mail::to($this->email)->send(new ApproveMail($message));
-            
 
     }
 
