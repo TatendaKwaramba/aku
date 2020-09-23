@@ -32,7 +32,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'), //production
+    'env' => env('APP_ENV', 'development'), //production
 
     /*
     |--------------------------------------------------------------------------
