@@ -21,6 +21,7 @@ return array(
     'CreateRoleUserTable' => $baseDir . '/database/migrations/2016_10_26_081351_create_role_user_table.php',
     'CreateRolesTable' => $baseDir . '/database/migrations/2016_10_26_080910_create_roles_table.php',
     'CreateSessionsTable' => $baseDir . '/database/migrations/2020_09_14_055028_create_sessions_table.php',
+    'CreateTransactionsTable' => $baseDir . '/database/migrations/2020_09_16_104850_create_transactions_table.php',
     'CreateUielementsTable' => $baseDir . '/database/migrations/2016_10_26_083335_create_uielements_table.php',
     'CreateUrlUielementsTable' => $baseDir . '/database/migrations/2016_12_12_100337_create_url_uielements_table.php',
     'CreateUrlsTable' => $baseDir . '/database/migrations/2016_10_26_081850_create_urls_table.php',
