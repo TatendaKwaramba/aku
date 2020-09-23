@@ -30,7 +30,7 @@ class CsvMailer extends Mailable
     public function build()
     {
         return $this->subject('Mail from AKUPAY')
-                    ->attach(\storage_path('app\results\results.csv'))
+                    ->attach(\storage_path('app/results/results.csv'))
                     ->view('mail.account.csvmail');
     }
 }

@@ -40,7 +40,7 @@ class DisbursementsController extends Controller
     public function getDisbursementsValidate(Request $request){
 
         $data_array = array();
-        $path =  \storage_path('app\disbursements\disbursements.csv');
+        $path =  \storage_path('app/disbursements/disbursements.csv');
         $data = array_map("str_getcsv", file($path));
         $csv_data = array_slice($data, 0);
         $header = array_shift($csv_data);

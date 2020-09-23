@@ -29,7 +29,7 @@ class Disbursements extends Mailable
     public function build()
     {
         return $this->subject('Mail from AKUPAY')
-                            ->attach(\storage_path('app\result\result.csv'))
+                            ->attach(\storage_path('app/result/result.csv'))
                             ->view('mail.account.csvmail');
     }
 }

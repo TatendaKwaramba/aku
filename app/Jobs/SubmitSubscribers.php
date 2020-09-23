@@ -120,7 +120,7 @@ class SubmitSubscribers implements ShouldQueue
         //Download CVS
         Storage::delete('results.csv');
         Storage::put('results/results.csv', '');
-        $filepath = \storage_path('app\results\results.csv');
+        $filepath = \storage_path('app/results/results.csv');
         $handle = fopen($filepath, 'w+');
         $csv_headers = ['mobile', 'firstname', 'lastname', 'address', 'email', 'batch', 'state', 'status'];
 

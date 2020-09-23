@@ -127,7 +127,7 @@ class SubmitDisbursements implements ShouldQueue
 
         //Storage::delete('results.csv');
         Storage::put('result/result.csv', '');
-        $filepath = \storage_path('app\result\result.csv');
+        $filepath = \storage_path('app/result/result.csv');
         $handle = fopen($filepath, 'w+');
         $csv_headers = ['transid', 'mobile', 'amount', 'batch', 'state', 'status'];
 

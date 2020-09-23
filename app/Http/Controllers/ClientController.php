@@ -36,7 +36,7 @@ class ClientController extends Controller
     public function getBulkValidate(Request $request) 
     {
             $data_array = array();
-            $path =  \storage_path('app\subscribers\subscribers.csv');
+            $path =  \storage_path('app/subscribers/subscribers.csv');
             $data = array_map("str_getcsv", file($path));
             $csv_data = array_slice($data, 0);
             $header = array_shift($csv_data);
