@@ -236,7 +236,8 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], func
     Route::get('/business/supervisor/view', 'BusinessController@getViewSupervisor');
     Route::get('/business/validation/pending', 'BusinessController@getPendingValidations');
     Route::get('/business/validation/bank_transfer/pending', 'BusinessController@getPendingBankTransfers');
-    Route::post('/business/transfer', 'BusinessController@transfer');
+    Route::post('/business/addtransfer', 'BusinessController@addTransfer');
+    Route::post('/business/transfer', 'BusinessController@transfer')->name('transfer');
     Route::post('/business/transfer/notification', 'BusinessController@showMessage');
 
     //Products

@@ -22,6 +22,7 @@
                                 <th>mobile</th>
                                 <th>amount</th>
                                 <th>state</th>
+                                <th>batch</th>
                                 <th>action</th>
                             </tr>
                         </thead>
@@ -58,6 +59,9 @@
                 }, {
                     data: 'state',
                     name: 'state'
+                }, {
+                    data: 'batch',
+                    name: 'batch'
                 },
                 {data: 'action', name: 'action', orderable: false, searchable: false}
               ]

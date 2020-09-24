@@ -22,17 +22,19 @@ class ApproveDisbursements implements ShouldQueue
 
     protected $data = array();
     protected $email;
+    protected $maker;
     public $tries = 5;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data, $email)
+    public function __construct($data, $email, $maker)
     {
         //
         $this->data = $data;
         $this->email = $email;
+        $this->maker = $maker;
     }
 
     /**
@@ -48,8 +50,13 @@ class ApproveDisbursements implements ShouldQueue
         $client = new Client();
 
         foreach($data as $rec){
-            $results = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')->get();
+            $results = DB::table('transactions')->select('state', 'maker')
+                                                ->where('transid', $rec)
+                                                ->get();
 
+            if($results[0]->maker == $this->maker){
+                continue;
+            }
             if($results[0]->state == 'Successfully Initiated'){
                 $info = array(
                     "agent_id" => 1472,

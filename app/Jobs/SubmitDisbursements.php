@@ -25,18 +25,20 @@ class SubmitDisbursements implements ShouldQueue
     protected $data = array();
     protected $email;
     protected $batch;
+    protected $maker;
     public $tries = 5;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data, $email, $batch)
+    public function __construct($data, $email, $batch, $maker)
     {
         //
         $this->data = $data;
         $this->email = $email;
         $this->batch = $batch;
+        $this->maker = $maker;
     }
 
     /**
@@ -106,7 +108,7 @@ class SubmitDisbursements implements ShouldQueue
                     $rec['state'] = "Successfully Initiated";
                     $rec['transid'] = $response[0]['transaction']['id'];
                 }elseif($response[0]['code'] == 01){
-                    $rec['state'] = "Client does not exist";
+                    $rec['state'] = "Transactional Amount exceeds current balance";
                 } else {
                     $rec['state'] = "Error";
                 }
@@ -118,7 +120,8 @@ class SubmitDisbursements implements ShouldQueue
                     'amount' => $rec['amount'], 
                     'batch' => $rec['batch'], 
                     'state' => $rec['state'], 
-                    'status' => $rec['status']]);
+                    'status' => $rec['status'],
+                    'maker' =>  $this->maker ]);
                 array_push($data, $rec);
 
             }

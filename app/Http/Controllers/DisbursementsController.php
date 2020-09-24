@@ -104,7 +104,7 @@ class DisbursementsController extends Controller
 
     public function approve(Request $request){
         
-        $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state')
+        $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state', 'batch', 'maker')
                                                 ->orderBy('transid', 'desc')                                        
                                                 ->get();
         //return $transactions[0]->state;
@@ -116,13 +116,25 @@ class DisbursementsController extends Controller
                         if($row->state == 'Approved'){
                             return '<div><input id="'.$row->transid.'" class="checks" type="checkbox" disabled/><label for="'.$row->transid.'"></label></div>';
                         } else {
-                        return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
+                            if($row->state !== 'Successfully Initiated'){
+                                return '';
+                            }
+                            if($row->maker == Auth::user()->id){
+                                return '';
+                            } 
+                            return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
                         }
                     })
                     ->addColumn('action', function($row){
                         if($row->state == 'Approved'){
                             return '<button class="btn" disabled>Approved</button>';
                         } else {
+                            if($row->state !== 'Successfully Initiated'){
+                                return '';
+                            }
+                            if($row->maker == Auth::user()->id){
+                                return '';
+                            }
                             $btn = ' <a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn blue deleteItem">Approve</a>';
                             return $btn;
                         }
@@ -140,34 +152,39 @@ class DisbursementsController extends Controller
         $data = $json_data;
         $client = new Client();
         $results = DB::table('transactions')
-                            ->select('state')
+                            ->select('state', 'maker')
                             ->where('transid', '=', $transid)
                             ->get();
-
-        if($results[0]->state == "Successfully Initiated"){
-            $info = array(
-                "agent_id" => 1472,
-                "admin_id" => 1,
-                "sms" => "Akupay: you have received a new payment",
-                "type" => "validate",
-                "disbursements" => [
-                    [
-                        "transId" => $transid
+        if($results[0]->maker == Auth::user()->id){
+            return back()->with('error','Cannot approve transactions that you submitted');
+        }
+        else {
+            if($results[0]->state == "Successfully Initiated"){
+                $info = array(
+                    "agent_id" => 1472,
+                    "admin_id" => 1,
+                    "sms" => "Akupay: you have received a new payment",
+                    "type" => "validate",
+                    "disbursements" => [
+                        [
+                            "transId" => $transid
+                        ]
                     ]
-                ]
-            );
-    
-            $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
-                'headers' => ['Content-type' => 'application/json'],
+                );
+        
+                $result = $client->post(env('BASE_URL') . '/disbursement/disburse', [
+                    'headers' => ['Content-type' => 'application/json'],
+                    
+                    'json' => $info
+                ]);
                 
-                'json' => $info
-            ]);
-            
-            DB::table('transactions')
-                ->where('transid', $transid)
-                ->update(['state' => 'Approved']);
-    
-            return back()->with('success','Transaction has been successfully approved');
+                DB::table('transactions')
+                    ->where('transid', $transid)
+                    ->update(['state' => 'Approved']);
+        
+                return back()->with('success','Transaction has been successfully approved');
+            }
+
         }
                 
         return back()->with('error','Could not approve the transaction. Please if its properly initiated');
@@ -179,7 +196,8 @@ class DisbursementsController extends Controller
         ini_set('max_execution_time', '5000');
         $user = User::findOrFail(Auth::user()->id);
         $email = $user->email;
-        ApproveDisbursements::dispatch($data, $email);
+        $maker = $user->id;
+        ApproveDisbursements::dispatch($data, $email, $maker);
 
         return back()->with('success','Transactions are being processed, an email will be send to '.$email.' when the process has completed');
     }
@@ -191,7 +209,8 @@ class DisbursementsController extends Controller
         $array = json_decode($request->json, true);
         $user = User::findOrFail(Auth::user()->id);
         $email = $user->email;
-        SubmitDisbursements::dispatch($array, $email, $batch_name);
+        $maker = $user->id;
+        SubmitDisbursements::dispatch($array, $email, $batch_name, $maker);
 
         return back()->with('success','Your Batch is being processed! An email will be sent to '.$email.' when done'); 
 
