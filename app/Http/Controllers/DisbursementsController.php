@@ -105,9 +105,9 @@ class DisbursementsController extends Controller
     public function approve(Request $request){
         
         $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state', 'batch', 'maker')
+                                                ->where('maker', '<>', Auth::user()->id)
                                                 ->orderBy('transid', 'desc')                                        
                                                 ->get();
-        //return $transactions[0]->state;
         
         if ($request->ajax()) {
             return Datatables::of($transactions)

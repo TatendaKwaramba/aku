@@ -239,6 +239,9 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], func
     Route::post('/business/addtransfer', 'BusinessController@addTransfer');
     Route::post('/business/transfer', 'BusinessController@transfer')->name('transfer');
     Route::post('/business/transfer/notification', 'BusinessController@showMessage');
+    Route::get('/business/transfer/verify', 'BusinessController@getVerify')->name('approve');
+    Route::get('/business/{id}/{transfercode}/send', 'BusinessController@verify')->name('verify');
+    Route::post('/business/transfer/finalize', 'BusinessController@sendVerification')->name('sendVerication');
 
     //Products
     Route::get('/product/add', 'ProductController@getAddProduct');

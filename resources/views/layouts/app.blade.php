@@ -380,6 +380,21 @@
 
                                             @endif
 
+                                            @if(Roles::hasElement(36))
+                                                <li><a href="{{ url( '/business/transfer/verify') }}"
+                                                       class="blue-text
+                                                            @if(Request::is('/business/transfer/verify*'))
+                                                               active
+                                                            @endif
+                                                       @if(Auth::user()->hasRole('admin_global'))
+                                                               uiroles
+                                                            @endif"
+                                                       id="36"
+                                                    >
+                                                        Verify Transfers</a></li>
+
+                                            @endif
+
                                         </ul>
                                     </div>
                                 </li>

@@ -84,6 +84,7 @@
     </div>
     <div id="businessInfo" class="modal">
         <div class="modal-content">
+            
             <img src="/img/gc/ico.png" alt="" style="width: 50px; height:auto;">
             <h5>{{businessInfo.name }}</h5>
             <p>
@@ -121,24 +122,16 @@
                 include 'businessFloatManagement.php';
 
             } ?>
-            <br><br>
-            <form method="post" action="/business/addtransfer">
-            <input type="hidden" name="name" value="{{businessInfo.name}}">
-            <input type="hidden" name="account" value="{{businessInfo.account}}">
-            <input type="hidden" name="deposit" value="{{businessInfo.deposit}}">
-            <input type="hidden" name="mobile" value="{{businessInfo.cellphone}}">
+            
                 <?php if (Entrust::ability(UiController::getRolesForElement(20009), array())){
                     include 'businessBankTransfers.php';
                 } ?>
-            </form>
-
+            
             <br><br>
             <?php if (Entrust::ability(UiController::getRolesForElement(20007), array())){
                 include 'businessBankTransfer.php';
             } ?>
            
-
-
         </div>
         <div class="modal-footer">
 

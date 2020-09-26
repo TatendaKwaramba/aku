@@ -5,8 +5,9 @@
     <form method="post" action="{{ url('/business/transfer') }}">
         <input type="hidden" name="name" value="{{ $name }}"/>
         <input type="hidden" name="account" value="{{ $account }}"/>
-        <div class="card" class="addSingleAgent">
-            <div class="card-content blue white-text  with-padding " style="font-size: large">
+        <input type="hidden" name="id" value="{{ $id }}"/>
+        <div class="card col s6 offset-s3" class="addSingleAgent">
+            <div class="card-content  with-padding " style="font-size: large">
                 <strong>@if(isset($data['name']))
                     {{ $data['name'] }}
                 @endif</strong><span class="right">@if(isset($data['name']))
@@ -16,30 +17,35 @@
 
             <div class="card-content with-padding">
 
-                    <div class="row valign center">
-                        <div class="input-field col s6 valign center">
-                            <input name="deposit" id="agent_first_name" type="number"
-                                class="validate" required>
-                            <label for="agent_first_name"><strong>Deposit</strong></label>
+                    <div class="row">
+                        <div class="input-field">
+                            <input name="deposit" type="number"
+                                class="validate" placeholder="Deposit">
                         </div>
                     </div>
  
 
-                <div class="row valign center">
-                    <div class="input-field col s6 valign center">
-                        <input name="commission" id="agent_id_number" type="number"
-                            class="validate">
-                        <label for="agent_id_number"><strong>Commission</strong></label>
+                <div class="row">
+                    <div class="input-field">
+                        <input name="commission" type="number"
+                            class="validate" placeholder="Commission">
                     </div>
                 </div>
-                <div class="row valign center">
-                    <div class="input-field col s6">
+
+                <div class="row">
+                    <div class="input-field">
+                        <input name="bank_code" type="number"
+                            class="validate" placeholder="Bank Code" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field">
                         <button type="submit" class="btn blue btn-primary">
                             Transfer
                         </button>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
 
