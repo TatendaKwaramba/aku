@@ -121,8 +121,10 @@ class SubmitDisbursements implements ShouldQueue
                     'batch' => $rec['batch'], 
                     'state' => $rec['state'], 
                     'status' => $rec['status'],
-                    'maker' =>  $this->maker ],
-                    'date' => $)$response[0]['transaction']['date']
+                    'maker' =>  $this->maker,
+                    'created_at' => $response[0]['transaction']['date']
+                ]);
+
                 array_push($data, $rec);
 
             }
