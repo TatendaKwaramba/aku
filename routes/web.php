@@ -217,6 +217,7 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], func
     Route::get('/disbursments/datatable', 'DisbursementsController@getDisbursementsValidate')->name('getDisbursementsValidate');
     Route::get('/disbursments/email', 'ClientController@emailCsv')->name('emailCsv');
     Route::post('/disbursments/multivalidate', 'DisbursementsController@multiValidatePayment')->name('multiValidatePayment');
+    Route::get('/disbursements/{transid}/delete', 'DisbursementsController@deleteTransaction')->name('deletes');
 
     //Reports
     Route::get('/reports/transactions', 'ReportController@getListTransactions');
@@ -242,6 +243,7 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], func
     Route::get('/business/transfer/verify', 'BusinessController@getVerify')->name('approve');
     Route::get('/business/{id}/{transfercode}/send', 'BusinessController@verify')->name('verify');
     Route::post('/business/transfer/finalize', 'BusinessController@sendVerification')->name('sendVerication');
+    Route::get('/business/{transfercode}/delete', 'BusinessController@deleteTransfer')->name('deletes');
 
     //Products
     Route::get('/product/add', 'ProductController@getAddProduct');

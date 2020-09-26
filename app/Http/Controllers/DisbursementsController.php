@@ -116,13 +116,12 @@ class DisbursementsController extends Controller
                         if($row->state == 'Approved'){
                             return '<div><input id="'.$row->transid.'" class="checks" type="checkbox" disabled/><label for="'.$row->transid.'"></label></div>';
                         } else {
-                            if($row->state !== 'Successfully Initiated'){
-                                return '';
-                            }
-                            if($row->maker == Auth::user()->id){
-                                return '';
+                            if($row->state == 'Successfully Initiated'){
+                                if($row->maker == Auth::user()->id){
+                                    return '';
+                                }
+                                return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
                             } 
-                            return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
                         }
                     })
                     ->addColumn('action', function($row){
@@ -130,12 +129,13 @@ class DisbursementsController extends Controller
                             return '<button class="btn" disabled>Approved</button>';
                         } else {
                             if($row->state !== 'Successfully Initiated'){
-                                return '';
+                                return '<a href="/disbursements/'.$row->transid.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';
                             }
                             if($row->maker == Auth::user()->id){
                                 return '';
                             }
-                            $btn = ' <a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Approve" class="btn blue deleteItem">Approve</a>';
+                            $btn = '<a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">check</i></a>
+                            <a href="/disbursements/'.$row->transid.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';
                             return $btn;
                         }
                     })
@@ -214,6 +214,11 @@ class DisbursementsController extends Controller
 
         return back()->with('success','Your Batch is being processed! An email will be sent to '.$email.' when done'); 
 
+    }
+
+    public function deleteTransaction(Request $request, $transid){
+        DB::table('transactions')->where('transid', $transid)->delete();
+        return back()->with('success', 'transaction successfully deleted');
     }
 
     public function exportTemplate(){

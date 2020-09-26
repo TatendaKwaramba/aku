@@ -121,7 +121,8 @@ class SubmitDisbursements implements ShouldQueue
                     'batch' => $rec['batch'], 
                     'state' => $rec['state'], 
                     'status' => $rec['status'],
-                    'maker' =>  $this->maker ]);
+                    'maker' =>  $this->maker ],
+                    'date' => $)$response[0]['transaction']['date']
                 array_push($data, $rec);
 
             }
@@ -142,9 +143,6 @@ class SubmitDisbursements implements ShouldQueue
         fclose($handle);
 
 
-        }else{
-            $email = 'kwarambaandy@gmail.com';
-            Mail::to($email)->send();
         }
     }
 

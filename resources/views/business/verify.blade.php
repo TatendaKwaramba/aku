@@ -5,19 +5,19 @@
 
         <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
             <div class="card-title valign center">
-                Approve Transfers
+                <h4>Approve Transfers</h4>
             </div>
             <div class="card-content valign center">
                     <table id="myTable" class="display" data-page-length='50'>
                         <thead>
                             <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>reference</th>
-                                <th>transfer_code</th>
-                                <th>amount</th>
-                                <th>initiated_by</th>
-                                <th>action</th>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>REFERENCE</th>
+                                <th>TRANSFER_CODE</th>
+                                <th>AMOUNT</th>
+                                <th>INITIATED</th>
+                                <th>ACTION</th>
                             </tr>
                         </thead>
                     </table>

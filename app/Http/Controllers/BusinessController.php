@@ -218,7 +218,8 @@ class BusinessController extends Controller
             return Datatables::of($transfers)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                            $btn = '<a href="/business/'.$row->agent_id.'/'.$row->transfer_code.'/send" data-toggle="tooltip" data-original-title="Verify" class="btn blue deleteItem">Verify</a>';
+                            $btn = '<a href="/business/'.$row->agent_id.'/'.$row->transfer_code.'/send" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">check</i></a>
+                            <a href="/business/'.$row->transfer_code.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';
                             return $btn;
                         }
                     )
@@ -290,6 +291,11 @@ class BusinessController extends Controller
             return back()->with('error', 'Transfer did not complete successfully, Please check with Paystack Dashboard');
         }
 
+    }
+
+    public function deleteTransfer(Request $request, $transfercode){
+        DB::table('transfers')->where('transfer_code', $transfercode)->delete();
+        return back()->with('success', 'transfer successfully deleted');
     }
 
 }
