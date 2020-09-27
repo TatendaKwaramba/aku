@@ -13,3 +13,5 @@
 - handles wrong otp
 - validate commission if its not greater
 
+
+- make sure account details acre collected
