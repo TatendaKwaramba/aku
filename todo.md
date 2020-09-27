@@ -7,3 +7,9 @@
 - Add Date table to transactions and tranfers
 - Order by date
 - Add delete function for both approve tables
+- subtract balance 
+- transfer commission
+- search agent bank code
+- handles wrong otp
+- validate commission if its not greater
+

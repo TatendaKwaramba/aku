@@ -11,6 +11,7 @@
             <div class="card-content with-padding">
                 <input name="id" type="hidden" value="{{ $id }}">
                 <input name="transfer_code" type="hidden" value="{{ $transfercode }}">
+                <input name="reason" type="hidden" value="{{ $reason }}">
                 <div class="row">
                     <div class="input-field">
                         <input name="otp" type="number"

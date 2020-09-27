@@ -105,7 +105,6 @@ class DisbursementsController extends Controller
     public function approve(Request $request){
         
         $transactions = DB::table('transactions')->select('transid', 'mobile', 'amount', 'state', 'batch', 'maker')
-                                                ->where('maker', '<>', Auth::user()->id)
                                                 ->orderBy('transid', 'desc')                                        
                                                 ->get();
         
@@ -118,7 +117,7 @@ class DisbursementsController extends Controller
                         } else {
                             if($row->state == 'Successfully Initiated'){
                                 if($row->maker == Auth::user()->id){
-                                    return '';
+                                    return '<div><input id="'.$row->transid.'" class="checks" type="checkbox" disabled/><label for="'.$row->transid.'"></label></div>';
                                 }
                                 return '<div><input id="'.$row->transid.'" type="checkbox" name="transid[]" class="checkall" value="'.$row->transid.'" /><label for="'.$row->transid.'"></label></div>';
                             } 
@@ -132,7 +131,8 @@ class DisbursementsController extends Controller
                                 return '<a href="/disbursements/'.$row->transid.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';
                             }
                             if($row->maker == Auth::user()->id){
-                                return '';
+                                return '<a href="#" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue" disabled><i class = "material-icons">check</i></a>
+                                <a href="#'.$row->transid.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red" disabled><i class = "material-icons">clear</i></a>';
                             }
                             $btn = '<a href="/disbursements/'.$row->transid.'/approve" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">check</i></a>
                             <a href="/disbursements/'.$row->transid.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';

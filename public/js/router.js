@@ -1831,8 +1831,8 @@ adminApp.controller('clientListController', function ($scope, dataHandler, $loca
 
         $scope.clients = [];
         var subMobile = '';
-        var pre = '263';
-        if (($scope.subMobile.startsWith('263')) && ($scope.subMobile.length == 12)) {
+        var pre = '234';
+        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 12)) {
             subMobile = $scope.subMobile
         }
         if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 10)) {
@@ -2444,9 +2444,9 @@ adminApp.controller('addClientController', function ($scope, dataHandler) {
     $scope.submitClient = function () {
         $scope.submit_progress = true;
         var subMobile = '';
-        var pre = '263';
+        var pre = '234';
 
-        if (($scope.mobile.startsWith('263')) && ($scope.mobile.length === 12)) {
+        if (($scope.mobile.startsWith('234')) && ($scope.mobile.length === 12)) {
             subMobile = $scope.mobile
         }
         if (($scope.mobile.startsWith('0')) && ($scope.mobile.length === 10)) {
@@ -5344,8 +5344,8 @@ adminApp.controller('adjustmentsController', function ($scope, dataHandler) {
     $scope.searchSubscriber = function () {
         $scope.srcclients = [];
         var subMobile = '';
-        var pre = '263';
-        if (($scope.subMobile.startsWith('263')) && ($scope.subMobile.length == 12)) {
+        var pre = '234';
+        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 12)) {
             subMobile = $scope.subMobile
         }
         if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 10)) {
@@ -5375,8 +5375,8 @@ adminApp.controller('adjustmentsController', function ($scope, dataHandler) {
     $scope.searchDestSubscriber = function () {
         $scope.destclients = [];
         var subMobile = '';
-        var pre = '263';
-        if (($scope.destsubMobile.startsWith('263')) && ($scope.destsubMobile.length == 12)) {
+        var pre = '234';
+        if (($scope.destsubMobile.startsWith('234')) && ($scope.destsubMobile.length == 12)) {
             subMobile = $scope.destsubMobile
         }
         if (($scope.destsubMobile.startsWith('0')) && ($scope.destsubMobile.length == 10)) {
