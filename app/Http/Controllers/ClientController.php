@@ -20,6 +20,56 @@ class ClientController extends Controller
         return view('clients.list');
     }
 
+    public function getAllClients(Request $request) 
+    {     
+        //Call the api
+        $url = "http://api.akupay.ng:8100/api/v1/subscribers/1/200";
+        $client = new Client();
+
+        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/500', [
+            'headers' => ['Content-type' => 'application/json'],
+        ]);
+
+        //store response
+        $res = $result->getBody()->getContents();
+        $response = json_decode($res, TRUE);
+
+        $data = $response['content'];
+            
+            if ($request->ajax()) {
+                return Datatables::of($data)
+                        ->addIndexColumn()
+                        ->make(true);
+            }
+        
+        return view('clients.viewall');  
+    }
+
+    public function getMoreClients(Request $request) 
+    {     
+        $size = $request->input('size');
+        //Call the api
+        $client = new Client();
+
+        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/'.$size, [
+            'headers' => ['Content-type' => 'application/json'],
+        ]);
+
+        //store response
+        $res = $result->getBody()->getContents();
+        $response = json_decode($res, TRUE);
+
+        $data = $response['content'];
+            
+            if ($request->ajax()) {
+                return Datatables::of($data)
+                        ->addIndexColumn()
+                        ->make(true);
+            }
+        
+        return view('clients.viewall', $size);  
+    }
+
     public function bulkAddClients(){
         return view('clients.bulkAddClients');
     }

@@ -184,6 +184,23 @@
 
                                             @if(Roles::hasElement(21))
 
+<li><a href="{{ url('/client/all') }}"
+       class="blue-text
+            @if(Request::is('client/all*'))
+               active
+            @endif
+       @if(Auth::user()->hasRole('admin_global'))
+               uiroles
+            @endif"
+       id="21">
+        View All Subscribers</a>
+</li>
+<div class="divider"></div>
+
+@endif
+
+                                            @if(Roles::hasElement(21))
+
                                             <li><a href="{{ url('/client/bulkadd') }}"
                                                    class="blue-text
                                                         @if(Request::is('client/bulkadd*'))
