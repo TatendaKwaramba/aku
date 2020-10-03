@@ -13,7 +13,7 @@
                         <h5 class="center blue-text"><i class="fa fa-group"></i> SUBSCRIBERS [{{clientNumber}}]</h5>
                         <form name="searchSubscriberForm" id="searchSubscriberForm" ng-submit="searchSubscriber()">
                             <input type="text" placeholder="ENTER SUBSCRIBER'S MOBILE" ng-model="subMobile"
-                                   pattern="\d{9,12}" onblur="this.value=removeSpaces(this.value)" required>
+                                   pattern="\d{7,15}" onblur="this.value=removeSpaces(this.value)" required>
                             <button class="btn right" ng-disabled="searchSubscriberForm.$invalid"><i
                                         class="fa fa-search"></i></button>
                         </form>

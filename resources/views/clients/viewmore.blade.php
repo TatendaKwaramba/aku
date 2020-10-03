@@ -12,7 +12,7 @@
                 <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
                     {{ csrf_field() }}
                     <div class="input-field col s3">
-                        <input id="size" type="text" placeholder="number of records" class="validate col s8">
+                        <input id="size" type="text" name="size" placeholder="number of records" class="validate col s8">
                         <span class="col s3"><a href="/client/size" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">send</i></a></span>
                     </div>
                     <table id="myTable" class="table bordered data-table" data-page-length='100'>
@@ -39,10 +39,13 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            var size = $('#size').value;
+            console.log(size);
             $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ url('/client/size') }}',
+                data: { size: size}
                 columns: [{
                     data: 'mobile',
                     name: 'mobile'

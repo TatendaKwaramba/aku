@@ -9,12 +9,8 @@
             </div>
             <div class="card-content valign center">
 
-                <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
+                <form action="{{ url('/client/size') }}" method="GET" class="form-horizontal">
                     {{ csrf_field() }}
-                    <div class="input-field col s3">
-                        <input id="size" type="text" placeholder="number of records" class="validate col s8">
-                        <span class="col s3"><a href="#" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">send</i></a></span>
-                    </div>
                     <table id="myTable" class="table bordered data-table" data-page-length='100'>
                         <thead>
                             <tr>

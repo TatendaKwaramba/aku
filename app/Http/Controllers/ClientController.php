@@ -23,10 +23,9 @@ class ClientController extends Controller
     public function getAllClients(Request $request) 
     {     
         //Call the api
-        $url = "http://api.akupay.ng:8100/api/v1/subscribers/1/200";
         $client = new Client();
 
-        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/500', [
+        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/2000', [
             'headers' => ['Content-type' => 'application/json'],
         ]);
 
@@ -48,6 +47,7 @@ class ClientController extends Controller
     public function getMoreClients(Request $request) 
     {     
         $size = $request->input('size');
+        //return $request->all();
         //Call the api
         $client = new Client();
 
@@ -67,7 +67,7 @@ class ClientController extends Controller
                         ->make(true);
             }
         
-        return view('clients.viewall', $size);  
+        return view('clients.viewmore', compact('size'));  
     }
 
     public function bulkAddClients(){
