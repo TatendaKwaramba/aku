@@ -5,7 +5,7 @@
 
         <div class="card bg-light col-md-12 mt-3 ml-auto mr-auto">
             <div class="card-title valign center">
-                SUBSCRIBERS
+                <h4>SUBSCRIBERS</h4>
             </div>
             <div class="card-content valign center">
 
@@ -15,12 +15,12 @@
                     <table id="myTable" class="table bordered data-table" data-page-length='100'>
                         <thead>
                             <tr>
-                                <th>mobile</th>
-                                <th>firstname</th>
-                                <th>lastname</th>
-                                <th>email</th>
-                                <th>status</th>
-                                <th>registration date</th>
+                                <th>MOBILE</th>
+                                <th>FIRSTNAME</th>
+                                <th>LASTNAME</th>
+                                <th>EMAIL</th>
+                                <th>STATUS</th>
+                                <th>REGISTRATION DATE</th>
                             </tr>
                         </thead>
                     </table>
