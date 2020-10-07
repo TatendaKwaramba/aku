@@ -9,12 +9,9 @@
             </div>
             <div class="card-content valign center">
 
-                <form action="{{ route('bulksubmit') }}" method="POST" class="form-horizontal">
+                <form class="form-horizontal">
                     {{ csrf_field() }}
-                    <div class="input-field col s3">
-                        <input id="size" type="text" name="size" placeholder="number of records" class="validate col s8">
-                        <span class="col s3"><a href="/client/size" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">send</i></a></span>
-                    </div>
+                    <input type="hidden" name="size" id="size" value="{{ $size }}"/>
                     <table id="myTable" class="table bordered data-table" data-page-length='100'>
                         <thead>
                             <tr>
@@ -39,13 +36,12 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            var size = $('#size').value;
-            console.log(size);
+            var size = $('#size').val();
+            console.log("Size : ", size);
             $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/client/size') }}',
-                data: { size: size}
+                ajax: '{{ url('/client/size?size=') }}'+size+'&',
                 columns: [{
                     data: 'mobile',
                     name: 'mobile'

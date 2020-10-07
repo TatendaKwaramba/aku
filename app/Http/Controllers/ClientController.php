@@ -22,50 +22,32 @@ class ClientController extends Controller
 
     public function getAllClients(Request $request) 
     {     
-        //Call the api
-        $client = new Client();
-
-        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/2000', [
-            'headers' => ['Content-type' => 'application/json'],
-        ]);
-
-        //store response
-        $res = $result->getBody()->getContents();
-        $response = json_decode($res, TRUE);
-
-        $data = $response['content'];
-            
-            if ($request->ajax()) {
-                return Datatables::of($data)
-                        ->addIndexColumn()
-                        ->make(true);
-            }
-        
-        return view('clients.viewall');  
+        return view('clients.viewrecords');  
     }
 
     public function getMoreClients(Request $request) 
     {     
-        $size = $request->input('size');
-        //return $request->all();
+        $size = $request->query('size');
+        
         //Call the api
         $client = new Client();
 
-        $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/'.$size, [
-            'headers' => ['Content-type' => 'application/json'],
-        ]);
+        if($size){
+            $result = $client->get('http://api.akupay.ng:8100/api/v1/subscribers/1/'.$size, [
+                'headers' => ['Content-type' => 'application/json'],
+            ]);
 
-        //store response
-        $res = $result->getBody()->getContents();
-        $response = json_decode($res, TRUE);
-
-        $data = $response['content'];
+            //store response
+            $res = $result->getBody()->getContents();
+            $response = json_decode($res, TRUE);
+            $data = $response['content']; 
             
             if ($request->ajax()) {
                 return Datatables::of($data)
                         ->addIndexColumn()
                         ->make(true);
             }
+        }
         
         return view('clients.viewmore', compact('size'));  
     }
