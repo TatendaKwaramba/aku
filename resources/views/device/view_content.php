@@ -97,14 +97,6 @@
     </div>
 </div>
 
-<script>
-    $('select').material_select();
-    $('.datepicker').pickadate({
-        selectMonths: true,
-        selectYears: 15
-    });
-</script>
-
 <div class="clientFile" ng-show="clientFile">
     <br/>
     <div id="back" class="chip red white-text with-padding z-depth-1" ng-click="backToSubscriberList()">

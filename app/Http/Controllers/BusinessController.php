@@ -103,12 +103,16 @@ class BusinessController extends Controller
         $data = array();
         $db = array();
 
+        $bank_code = DB::table('bank')->select('code')
+                                    ->where('name', $dat['bank'])
+                                    ->get();
+
         $client = new Client();
 
         //Create Transfer Recipient
         if(true){
             $account = $dat['account'];
-            $code = $dat['bank_code'];
+            $code = $bank_code;
             $agentid = $dat['id'];
             //create payload
             $info = array( 
@@ -173,6 +177,17 @@ class BusinessController extends Controller
 
             $responseDatta = json_decode($resultt->getBody(), true);
             $db = (array)$responseDatta;
+
+            //initiate reduction
+            if($db['data']['status'] == 'success'){
+                try {
+                    //code...
+                    initiateReduction($val, $dat['id'], $db['data']['transfer_code'], $db['data']['reason']);
+                } catch (\Throwable $th) {
+                    throw $th;
+                }
+                
+            }
             
             if($db['status']){
 
@@ -398,13 +413,41 @@ class BusinessController extends Controller
 
     }
 
-    public function webhookVerify(Request $request){
-        
-    }
+    public function initiateReduction($val, $id, $transfercode, $reason){
 
-    public function deleteTransfer(Request $request, $transfercode){
-        DB::table('transfers')->where('transfer_code', $transfercode)->delete();
-        return back()->with('success', 'transfer successfully deleted');
+        $deposit = "0";
+        $commission = "0";
+
+        if($reason == "deposit"){
+            $deposit = $val;
+        }
+        if($reason == "commission"){
+            $commission = $val; 
+        }
+
+        $float = array(
+            "type" => "initiate_reduction",
+            "commission" => $commission,
+            "deposit" => $deposit,
+            "agent_id" => $id,
+            "admin_id" => Auth::user()->id
+        );
+
+        //send payload
+
+            $ress = $client->post(env('BASE_URL') . '/agent_crud/manage_evalue', [
+                'headers' => ['Content-type' => 'application/json'],
+                
+                'json' => $float
+            ]);
+        
+            $resData = json_decode($ress->getBody(), true);
+            $rs = (array)$resData;
+            // return $rs;
+
+        DB::table('transfers')
+        ->where('transfer_code', $transfercode)
+        ->update(['status' => 'success']);
     }
 
 }

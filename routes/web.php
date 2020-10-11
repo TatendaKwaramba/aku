@@ -16,12 +16,12 @@ Route::post('/password/reset/');
 use Illuminate\Support\Facades\Route;
 
 
-Auth::routes();
+//Auth::routes();
 
 Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
-Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
+//Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
 
 
     Route::get('/', 'HomeController@index');
@@ -181,9 +181,9 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {
     Route::post('/api/reports/rank', 'RankingsController@rankAgents');
     Route::get('/api/reports/excel', 'RankingsController@excelTest');
 
-});
+//});
 
-Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
+//Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], function () {
 
     Route::get('/accounting/adjustments', 'AccountingController@getAdjustment');
 
@@ -324,5 +324,5 @@ Route::group(['middleware' => ['auth', 'gcUserStatus', 'gcAdmin', 'logs']], func
 
     //Activity Logs
     Route::get('/reports/activity-logs', 'SettingsController@getActivityLogs');
-});
+//});
 //************

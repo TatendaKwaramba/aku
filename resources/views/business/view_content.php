@@ -122,8 +122,7 @@
                 include 'businessFloatManagement.php';
 
             } ?>
-            
-                <?php if (Entrust::ability(UiController::getRolesForElement(20009), array())){
+            <?php if (Entrust::ability(UiController::getRolesForElement(20007), array())){
                     include 'businessBankTransfers.php';
                 } ?>
             
