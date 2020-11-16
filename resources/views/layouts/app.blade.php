@@ -210,7 +210,7 @@
                                                            uiroles
                                                         @endif"
                                                    id="21">
-                                                    Add Bulk Subscriber</a>
+                                                    Add Bulk Subscribers</a>
                                             </li>
 
                                             @endif
@@ -381,35 +381,6 @@
                                                 <li>
                                                     <div class="divider"></div>
                                                 </li>
-                                            @endif
-                                            @if(Roles::hasElement(36))
-                                                <li><a href="{{ url( '/business/validation/bank_transfer/pending') }}"
-                                                       class="blue-text
-                                                            @if(Request::is('business/validation/bank_transfer/pending*'))
-                                                               active
-                                                            @endif
-                                                       @if(Auth::user()->hasRole('admin_global'))
-                                                               uiroles
-                                                            @endif"
-                                                       id="36"
-                                                    >
-                                                        Pending Bank Transfers</a></li>
-
-                                            @endif
-
-                                            @if(Roles::hasElement(36))
-                                                <li><a href="{{ url( '/business/transfer/verify') }}"
-                                                       class="blue-text
-                                                            @if(Request::is('/business/transfer/verify*'))
-                                                               active
-                                                            @endif
-                                                       @if(Auth::user()->hasRole('admin_global'))
-                                                               uiroles
-                                                            @endif"
-                                                       id="36"
-                                                    >
-                                                        Verify Transfers</a></li>
-
                                             @endif
 
                                         </ul>

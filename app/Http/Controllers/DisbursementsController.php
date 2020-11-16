@@ -255,7 +255,7 @@ class DisbursementsController extends Controller
 
 
     public function valid_mobile($mobile){
-        if(!$mobile || !(preg_match('/^[0-9.\s]{9,12}+$/', $mobile))){
+        if(!$mobile || !(preg_match('/^[0-9.\s]{9,15}+$/', $mobile))){
             return FALSE;
         }else{
             return TRUE;

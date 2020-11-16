@@ -78,9 +78,9 @@ class SubmitDisbursements implements ShouldQueue
 
                 //create payload
                 $info = array(
-                    "agent_id" => 1472,
+                    "agent_id" => 11,
                     "admin_id" => 1,
-                    "sms" => "Akupay: you have received a payment of 10.00 from Samsoftx.",
+                    "sms" => "Akupay: you have received a payment of ".$rec['amount'],
                     "type" => "initiate",
                     "disbursements" => [
                         [
@@ -114,16 +114,19 @@ class SubmitDisbursements implements ShouldQueue
                 }
 
                 $rec['batch'] = $this->batch;
-                DB::table('transactions')->insert([
-                    'transid' => $rec['transid'], 
-                    'mobile' => $rec['mobile'], 
-                    'amount' => $rec['amount'], 
-                    'batch' => $rec['batch'], 
-                    'state' => $rec['state'], 
-                    'status' => $rec['status'],
-                    'maker' =>  $this->maker,
-                    'created_at' => $response[0]['transaction']['date']
-                ]);
+                if($rec['state'] == 00){
+                    DB::table('transactions')->insert([
+                        'transid' => $rec['transid'], 
+                        'mobile' => $rec['mobile'], 
+                        'amount' => $rec['amount'], 
+                        'batch' => $rec['batch'], 
+                        'state' => $rec['state'], 
+                        'status' => $rec['status'],
+                        'maker' =>  $this->maker,
+                        'created_at' => $response[0]['transaction']['date']
+                    ]);
+
+                }
 
                 array_push($data, $rec);
 

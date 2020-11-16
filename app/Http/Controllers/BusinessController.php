@@ -128,7 +128,7 @@ class BusinessController extends Controller
                 // 
                 $result = $client->post('https://api.paystack.co/transferrecipient', [
                     'headers' => ['Content-type' => 'application/json',
-                                  'Authorization' => 'Bearer sk_test_dedd2e4695debbf40c06b9e6d7920d4aab95810d'],
+                                  'Authorization' => 'Bearer sk_test_ae43cf1e9654d0be6067f2c9a4feede25a4a9a96'],
                     
                     'json' => $info
                 ]);
@@ -161,7 +161,7 @@ class BusinessController extends Controller
             try{
                 $resultt = $client->post('https://api.paystack.co/transfer', [
                     'headers' => ['Content-type' => 'application/json',
-                                  'Authorization' => 'Bearer sk_test_dedd2e4695debbf40c06b9e6d7920d4aab95810d'],
+                                  'Authorization' => 'Bearer sk_test_ae43cf1e9654d0be6067f2c9a4feede25a4a9a96'],
                     
                     'json' => $info
                 ]);
@@ -182,7 +182,43 @@ class BusinessController extends Controller
             if($db['data']['status'] == 'success'){
                 try {
                     //code...
-                    initiateReduction($val, $dat['id'], $db['data']['transfer_code'], $db['data']['reason']);
+                    //initiateReduction($val, $dat['id'], $db['data']['transfer_code'], $db['data']['reason']);
+                    $deposit = "0";
+                    $commission = "0";
+                    $trans_code = $db['data']['transfer_code'];
+            
+                    if($reason == "deposit"){
+                        $deposit = $val;
+                    }
+                    if($reason == "commission"){
+                        $commission = $val; 
+                    }
+            
+                    $float = array(
+                        "type" => "initiate_reduction",
+                        "commission" => $commission,
+                        "deposit" => $deposit,
+                        "agent_id" => $dat['id'],
+                        "admin_id" => Auth::user()->id
+                    );
+            
+                    //send payload
+            
+                        $ress = $client->post(env('BASE_URL') . '/agent_crud/manage_evalue', [
+                            'headers' => ['Content-type' => 'application/json'],
+                            
+                            'json' => $float
+                        ]);
+                    
+                        $resData = json_decode($ress->getBody(), true);
+                        $rs = (array)$resData;
+                        // return $rs;
+                            
+            
+                    DB::table('transfers')
+                    ->where('transfer_code', $trans_code)
+                    ->update(['status' => 'success']);
+
                 } catch (\Throwable $th) {
                     throw $th;
                 }
@@ -316,8 +352,7 @@ class BusinessController extends Controller
             return Datatables::of($transfers)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
-                            $btn = '<a href="/business/'.$row->agent_id.'/'.$row->transfer_code.'/'.$row->reason.'/send" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">check</i></a>
-                            <a href="/business/'.$row->transfer_code.'/delete" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light red"><i class = "material-icons">clear</i></a>';
+                            $btn = '<a href="/business/'.$row->agent_id.'/'.$row->transfer_code.'/'.$row->reason.'/send" data-toggle="tooltip" data-original-title="Verify" class="btn-floating waves-effect waves-light blue"><i class = "material-icons">check</i></a>';
                             return $btn;
                         }
                     )

@@ -5,7 +5,7 @@
         <div class="container">
             <div class="card bg-light col-md-6 mt-3 ml-auto mr-auto">
                 <div class="card-content text-center">
-                    <div class="card-title">Upload Bulk Disburments</div>
+                    <div class="card-title">Upload Bulk Disbursements</div>
                     <form action="{{ action('DisbursementsController@getDisbursementsValidate') }}" method="GET" enctype="multipart/form-data">
                         @csrf
                         <div class="file-field input-field">

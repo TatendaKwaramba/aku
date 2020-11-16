@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
-Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
+//Route::any('/api/onefusion/voucher', 'OneFusionController@sendVoucher');
 
 
 //Route::group(['middleware' => ['auth', 'gcUserStatus', 'logs']], function () {

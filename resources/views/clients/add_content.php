@@ -66,7 +66,7 @@
                     </div>
                     <div class="input-field col s6">
                         <input id="mobile" name="mobile" ng-model="mobile" type="text" class="validate"
-                               pattern="^(263|0)7([1-9])(\d{7})$" onblur="this.value=removeSpaces(this.value)" required>
+                               pattern="^(263|234|0)7([1-9])(\d{7})$" onblur="this.value=removeSpaces(this.value)" required>
                         <label for="mobile">Mobile</label>
                         <div ng-messages="addClientForm.mobile.$error"
                              ng-if="addClientForm.mobile.$dirty || addClientForm.mobile.$touched ">

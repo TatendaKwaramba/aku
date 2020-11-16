@@ -16,8 +16,12 @@
                         <select name="size" class="browser-default">
                             <option value="" disabled selected>Select</option>
                             <option value="100">100 records</option>
+                            <option value="200">200 records</option>
                             <option value="500">500 records</option>
                             <option value="1000">1000 records</option>
+                            <option value="1500">1500 records</option>
+                            <option value="2000">2000 records</option>
+                            <option value="2500">2500 records</option>
                             </select>
                         </div>
                           <div class="col s2"><button type="submit" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons">send</i></button></div>  

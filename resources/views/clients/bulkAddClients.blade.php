@@ -5,7 +5,7 @@
         <div class="container">
             <div class="card bg-light col-md-6 mt-3 ml-auto mr-auto">
                 <div class="card-content valign center">
-                    <div class="card-title">Upload Bulk Users</div>
+                    <div class="card-title">Add Bulk Subscribers</div>
                     <form action="{{ action('ClientController@getBulkValidate') }}" method="GET" enctype="multipart/form-data">
                         @csrf
                         <div class="file-field input-field">
