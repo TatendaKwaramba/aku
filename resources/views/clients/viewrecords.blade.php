@@ -15,6 +15,8 @@
                         <div class="col s4">
                         <select name="size" class="browser-default">
                             <option value="" disabled selected>Select</option>
+                            <option value="100">10 records</option>
+                            <option value="100">50 records</option>
                             <option value="100">100 records</option>
                             <option value="200">200 records</option>
                             <option value="500">500 records</option>
