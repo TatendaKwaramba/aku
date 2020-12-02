@@ -1832,10 +1832,10 @@ adminApp.controller('clientListController', function ($scope, dataHandler, $loca
         $scope.clients = [];
         var subMobile = '';
         var pre = '234';
-        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 12)) {
+        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 13)) {
             subMobile = $scope.subMobile
         }
-        if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 10)) {
+        if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 11)) {
             var subMobil = $scope.subMobile.substring(1);
             subMobile = pre.concat(subMobil);
         }
@@ -2446,10 +2446,10 @@ adminApp.controller('addClientController', function ($scope, dataHandler) {
         var subMobile = '';
         var pre = '234';
 
-        if (($scope.mobile.startsWith('234')) && ($scope.mobile.length === 12)) {
+        if (($scope.mobile.startsWith('234')) && ($scope.mobile.length === 13)) {
             subMobile = $scope.mobile
         }
-        if (($scope.mobile.startsWith('0')) && ($scope.mobile.length === 10)) {
+        if (($scope.mobile.startsWith('0')) && ($scope.mobile.length === 11)) {
             subMobile = $scope.mobile;
             subMobile = subMobile.replace(subMobile.charAt(0), pre);
         }
@@ -5345,10 +5345,10 @@ adminApp.controller('adjustmentsController', function ($scope, dataHandler) {
         $scope.srcclients = [];
         var subMobile = '';
         var pre = '234';
-        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 12)) {
+        if (($scope.subMobile.startsWith('234')) && ($scope.subMobile.length == 13)) {
             subMobile = $scope.subMobile
         }
-        if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 10)) {
+        if (($scope.subMobile.startsWith('0')) && ($scope.subMobile.length == 11)) {
             subMobile = $scope.subMobile;
             subMobile = subMobile.replace(subMobile.charAt(0), pre);
         }
@@ -5376,10 +5376,10 @@ adminApp.controller('adjustmentsController', function ($scope, dataHandler) {
         $scope.destclients = [];
         var subMobile = '';
         var pre = '234';
-        if (($scope.destsubMobile.startsWith('234')) && ($scope.destsubMobile.length == 12)) {
+        if (($scope.destsubMobile.startsWith('234')) && ($scope.destsubMobile.length == 13)) {
             subMobile = $scope.destsubMobile
         }
-        if (($scope.destsubMobile.startsWith('0')) && ($scope.destsubMobile.length == 10)) {
+        if (($scope.destsubMobile.startsWith('0')) && ($scope.destsubMobile.length == 11)) {
             subMobile = $scope.destsubMobile;
             subMobile = subMobile.replace(subMobile.charAt(0), pre);
         }

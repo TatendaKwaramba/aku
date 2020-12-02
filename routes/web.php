@@ -12,7 +12,7 @@
 */
 
 //Override
-Route::post('/password/reset/');
+//Route::post('/password/reset/');
 use Illuminate\Support\Facades\Route;
 
 
